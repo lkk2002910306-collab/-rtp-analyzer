@@ -1,0 +1,1483 @@
+<!DOCTYPE html>
+
+<html lang="zh-Hant">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>RTP Analyzer Ultimate</title>
+
+<style>
+
+*{box-sizing:border-box}
+
+body{
+
+ margin:0;
+
+ background:#f2f2f7;
+
+ color:#111;
+
+ font-family:-apple-system,BlinkMacSystemFont,
+
+ "PingFang TC","Noto Sans TC",sans-serif;
+
+}
+
+.app{
+
+ max-width:850px;
+
+ margin:auto;
+
+ padding:16px 12px 50px;
+
+}
+
+h1{
+
+ margin:5px 0 3px;
+
+ font-size:27px;
+
+}
+
+.subtitle{
+
+ color:#777;
+
+ font-size:13px;
+
+ margin-bottom:15px;
+
+}
+
+.card{
+
+ background:white;
+
+ border-radius:17px;
+
+ padding:15px;
+
+ margin-bottom:12px;
+
+ box-shadow:0 2px 12px #0000000c;
+
+}
+
+.grid{
+
+ display:grid;
+
+ grid-template-columns:1fr 1fr;
+
+ gap:9px;
+
+}
+
+.stat{
+
+ background:#f6f6f8;
+
+ border-radius:12px;
+
+ padding:11px;
+
+}
+
+.stat small{
+
+ color:#777;
+
+}
+
+.stat strong{
+
+ display:block;
+
+ font-size:19px;
+
+ margin-top:4px;
+
+}
+
+input,select{
+
+ width:100%;
+
+ padding:12px;
+
+ border:1px solid #d5d5d5;
+
+ border-radius:11px;
+
+ font-size:16px;
+
+ background:white;
+
+}
+
+button{
+
+ border:0;
+
+ border-radius:11px;
+
+ padding:12px 15px;
+
+ margin:4px 3px 4px 0;
+
+ background:#111;
+
+ color:white;
+
+ font-size:15px;
+
+}
+
+button.gray{
+
+ background:#e5e5ea;
+
+ color:#111;
+
+}
+
+button.red{
+
+ background:#d93025;
+
+}
+
+h3{
+
+ margin:3px 0 12px;
+
+}
+
+.table{
+
+ overflow-x:auto;
+
+}
+
+table{
+
+ width:100%;
+
+ border-collapse:collapse;
+
+ min-width:600px;
+
+}
+
+th,td{
+
+ padding:8px;
+
+ border-bottom:1px solid #eee;
+
+ text-align:center;
+
+ font-size:13px;
+
+}
+
+th{
+
+ background:#f5f5f7;
+
+ position:sticky;
+
+ top:0;
+
+}
+
+.bar{
+
+ height:12px;
+
+ background:#ddd;
+
+ border-radius:20px;
+
+ overflow:hidden;
+
+ margin-top:5px;
+
+}
+
+.bar i{
+
+ display:block;
+
+ height:100%;
+
+ background:#111;
+
+}
+
+.signal{
+
+ padding:12px;
+
+ border-radius:12px;
+
+ background:#f5f5f7;
+
+ line-height:1.7;
+
+}
+
+.note{
+
+ color:#777;
+
+ font-size:12px;
+
+ line-height:1.6;
+
+}
+
+@media(min-width:650px){
+
+ .grid4{
+
+  grid-template-columns:repeat(4,1fr);
+
+ }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="app">
+
+<h1>📊 RTP Analyzer Ultimate</h1>
+
+<div class="subtitle">
+
+逐局結果・RTP・倍數分布・序列・移動統計・分段分析
+
+</div>
+
+<!-- 輸入 -->
+
+<div class="card">
+
+<h3>新增結果</h3>
+
+<div class="grid">
+
+<div>
+
+<label>投注</label>
+
+<input id="bet"
+
+type="number"
+
+inputmode="decimal"
+
+step="any"
+
+value="1">
+
+</div>
+
+<div>
+
+<label>派彩</label>
+
+<input id="win"
+
+type="number"
+
+inputmode="decimal"
+
+step="any"
+
+value="0">
+
+</div>
+
+</div>
+
+<button onclick="addRound()">＋ 加入一局</button>
+
+<button class="gray" onclick="undo()">復原上一局</button>
+
+</div>
+
+<!-- 核心統計 -->
+
+<div class="card">
+
+<h3>核心統計</h3>
+
+<div class="grid">
+
+<div class="stat">
+
+<small>總局數</small>
+
+<strong id="rounds">0</strong>
+
+</div>
+
+<div class="stat">
+
+<small>RTP</small>
+
+<strong id="rtp">—</strong>
+
+</div>
+
+<div class="stat">
+
+<small>總投注</small>
+
+<strong id="totalBet">0</strong>
+
+</div>
+
+<div class="stat">
+
+<small>總派彩</small>
+
+<strong id="totalWin">0</strong>
+
+</div>
+
+<div class="stat">
+
+<small>淨輸贏</small>
+
+<strong id="net">0</strong>
+
+</div>
+
+<div class="stat">
+
+<small>平均倍數</small>
+
+<strong id="avgMulti">—</strong>
+
+</div>
+
+<div class="stat">
+
+<small>平均派彩</small>
+
+<strong id="avgWin">—</strong>
+
+</div>
+
+<div class="stat">
+
+<small>最高倍數</small>
+
+<strong id="maxMulti">—</strong>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- 倍數分布 -->
+
+<div class="card">
+
+<h3>倍數分布</h3>
+
+<div id="distribution"></div>
+
+</div>
+
+<!-- 移動 RTP -->
+
+<div class="card">
+
+<h3>移動統計</h3>
+
+<div class="grid">
+
+<div class="stat">
+
+<small>最近 10 局 RTP</small>
+
+<strong id="rtp10">—</strong>
+
+</div>
+
+<div class="stat">
+
+<small>最近 50 局 RTP</small>
+
+<strong id="rtp50">—</strong>
+
+</div>
+
+<div class="stat">
+
+<small>最近 100 局 RTP</small>
+
+<strong id="rtp100">—</strong>
+
+</div>
+
+<div class="stat">
+
+<small>最近 500 局 RTP</small>
+
+<strong id="rtp500">—</strong>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- 序列 -->
+
+<div class="card">
+
+<h3>序列分析</h3>
+
+<div class="grid">
+
+<div class="stat">
+
+<small>目前連續 0 倍</small>
+
+<strong id="zeroStreak">0</strong>
+
+</div>
+
+<div class="stat">
+
+<small>歷史最長 0 倍</small>
+
+<strong id="maxZeroStreak">0</strong>
+
+</div>
+
+<div class="stat">
+
+<small>目前連續有派彩</small>
+
+<strong id="winStreak">0</strong>
+
+</div>
+
+<div class="stat">
+
+<small>歷史最長有派彩</small>
+
+<strong id="maxWinStreak">0</strong>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- 高倍 -->
+
+<div class="card">
+
+<h3>高倍結果</h3>
+
+<div class="grid">
+
+<div class="stat">
+
+<small>2x 以上</small>
+
+<strong id="twoX">0</strong>
+
+</div>
+
+<div class="stat">
+
+<small>5x 以上</small>
+
+<strong id="fiveX">0</strong>
+
+</div>
+
+<div class="stat">
+
+<small>10x 以上</small>
+
+<strong id="tenX">0</strong>
+
+</div>
+
+<div class="stat">
+
+<small>20x 以上</small>
+
+<strong id="twentyX">0</strong>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- 分段 -->
+
+<div class="card">
+
+<h3>每 100 局分段統計</h3>
+
+<div class="table">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>區段</th>
+
+<th>局數</th>
+
+<th>投注</th>
+
+<th>派彩</th>
+
+<th>RTP</th>
+
+<th>最高倍數</th>
+
+</tr>
+
+</thead>
+
+<tbody id="segments"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<!-- 統計訊號 -->
+
+<div class="card">
+
+<h3>目前統計狀態</h3>
+
+<div id="signal" class="signal">
+
+尚無資料
+
+</div>
+
+<p class="note">
+
+這裡只描述目前歷史資料呈現出的統計特徵，
+
+不代表下一局結果會依照這個特徵發生。
+
+</p>
+
+</div>
+
+<!-- 資料 -->
+
+<div class="card">
+
+<h3>逐局資料</h3>
+
+<div class="table">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>局</th>
+
+<th>投注</th>
+
+<th>派彩</th>
+
+<th>淨輸贏</th>
+
+<th>倍數</th>
+
+</tr>
+
+</thead>
+
+<tbody id="records"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<!-- 操作 -->
+
+<div class="card">
+
+<button onclick="exportCSV()">
+
+匯出 CSV
+
+</button>
+
+<button class="gray" onclick="copyStats()">
+
+複製統計
+
+</button>
+
+<button class="red" onclick="clearAll()">
+
+清除全部
+
+</button>
+
+</div>
+
+</div>
+
+<script>
+
+let data =
+
+JSON.parse(
+
+localStorage.getItem("RTP_ANALYZER_FINAL")
+
+|| "[]"
+
+);
+
+/* =========================
+
+   工具
+
+========================= */
+
+function fmt(n){
+
+ return Number(n).toLocaleString(
+
+ "zh-TW",
+
+ {maximumFractionDigits:4}
+
+ );
+
+}
+
+function save(){
+
+ localStorage.setItem(
+
+ "RTP_ANALYZER_FINAL",
+
+ JSON.stringify(data)
+
+ );
+
+}
+
+/* =========================
+
+   加入一局
+
+========================= */
+
+function addRound(){
+
+const bet =
+
+Number(document.getElementById("bet").value);
+
+const win =
+
+Number(document.getElementById("win").value);
+
+if(!Number.isFinite(bet)||bet<=0){
+
+ alert("投注必須大於 0");
+
+ return;
+
+}
+
+if(!Number.isFinite(win)||win<0){
+
+ alert("派彩不能小於 0");
+
+ return;
+
+}
+
+data.push({
+
+ bet:bet,
+
+ win:win,
+
+ net:win-bet,
+
+ multiplier:win/bet,
+
+ time:new Date().toISOString()
+
+});
+
+save();
+
+render();
+
+document.getElementById("win").value=0;
+
+}
+
+/* =========================
+
+   復原
+
+========================= */
+
+function undo(){
+
+if(!data.length)return;
+
+data.pop();
+
+save();
+
+render();
+
+}
+
+/* =========================
+
+   基本統計
+
+========================= */
+
+function basicStats(list){
+
+if(!list.length)return null;
+
+let bet =
+
+list.reduce((a,r)=>a+r.bet,0);
+
+let win =
+
+list.reduce((a,r)=>a+r.win,0);
+
+let rtp =
+
+bet ? win/bet*100 : 0;
+
+let max =
+
+Math.max(...list.map(r=>r.multiplier));
+
+let avg =
+
+list.reduce((a,r)=>a+r.multiplier,0)
+
+/
+
+list.length;
+
+return {
+
+ rounds:list.length,
+
+ bet:bet,
+
+ win:win,
+
+ net:win-bet,
+
+ rtp:rtp,
+
+ max:max,
+
+ avg:avg
+
+};
+
+}
+
+/* =========================
+
+   移動 RTP
+
+========================= */
+
+function movingRTP(n){
+
+if(!data.length)return null;
+
+let list=data.slice(-n);
+
+if(!list.length)return null;
+
+let s=basicStats(list);
+
+return s.rtp;
+
+}
+
+/* =========================
+
+   連續統計
+
+========================= */
+
+function streaks(){
+
+let zeroCurrent=0;
+
+let zeroMax=0;
+
+let winCurrent=0;
+
+let winMax=0;
+
+for(let r of data){
+
+if(r.win===0){
+
+zeroCurrent++;
+
+zeroMax=
+
+Math.max(zeroMax,zeroCurrent);
+
+}else{
+
+zeroCurrent=0;
+
+}
+
+if(r.win>0){
+
+winCurrent++;
+
+winMax=
+
+Math.max(winMax,winCurrent);
+
+}else{
+
+winCurrent=0;
+
+}
+
+}
+
+return {
+
+ zeroCurrent,
+
+ zeroMax,
+
+ winCurrent,
+
+ winMax
+
+ };
+
+}
+
+/* =========================
+
+   分布
+
+========================= */
+
+function renderDistribution(){
+
+const ranges=[
+
+ ["0x",r=>r.multiplier===0],
+
+ ["0～1x",r=>r.multiplier>0&&r.multiplier<1],
+
+ ["1～2x",r=>r.multiplier>=1&&r.multiplier<2],
+
+ ["2～5x",r=>r.multiplier>=2&&r.multiplier<5],
+
+ ["5～10x",r=>r.multiplier>=5&&r.multiplier<10],
+
+ ["10～20x",r=>r.multiplier>=10&&r.multiplier<20],
+
+ ["20x+",r=>r.multiplier>=20]
+
+];
+
+let html="";
+
+for(let [name,test] of ranges){
+
+let count=data.filter(test).length;
+
+let percent=data.length
+
+ ? count/data.length*100
+
+ : 0;
+
+html+=`
+
+<div style="margin-bottom:10px">
+
+<div>
+
+${name}：
+
+<b>${count}</b>
+
+(${percent.toFixed(2)}%)
+
+</div>
+
+<div class="bar">
+
+<i style="width:${percent}%"></i>
+
+</div>
+
+</div>
+
+`;
+
+}
+
+document.getElementById(
+
+"distribution"
+
+).innerHTML=html;
+
+}
+
+/* =========================
+
+   分段統計
+
+========================= */
+
+function renderSegments(){
+
+let html="";
+
+for(
+
+let start=0;
+
+start<data.length;
+
+start+=100
+
+){
+
+let list=
+
+data.slice(start,start+100);
+
+let s=basicStats(list);
+
+html+=`
+
+<tr>
+
+<td>
+
+${start+1}～${start+list.length}
+
+</td>
+
+<td>${s.rounds}</td>
+
+<td>${fmt(s.bet)}</td>
+
+<td>${fmt(s.win)}</td>
+
+<td>${s.rtp.toFixed(2)}%</td>
+
+<td>${fmt(s.max)}x</td>
+
+</tr>
+
+`;
+
+}
+
+document.getElementById(
+
+"segments"
+
+).innerHTML=html;
+
+}
+
+/* =========================
+
+   統計訊號
+
+========================= */
+
+function renderSignal(){
+
+if(data.length===0){
+
+document.getElementById("signal")
+
+.innerHTML="尚無資料";
+
+return;
+
+}
+
+let all=basicStats(data);
+
+let r10=movingRTP(10);
+
+let r50=movingRTP(50);
+
+let r100=movingRTP(100);
+
+let s=streaks();
+
+let messages=[];
+
+messages.push(
+
+`目前累計 ${all.rounds} 局，總 RTP ${all.rtp.toFixed(2)}%。`
+
+);
+
+if(r10!==null){
+
+messages.push(
+
+`最近 10 局 RTP：${r10.toFixed(2)}%。`
+
+);
+
+}
+
+if(r50!==null){
+
+messages.push(
+
+`最近 50 局 RTP：${r50.toFixed(2)}%。`
+
+);
+
+}
+
+if(r100!==null){
+
+messages.push(
+
+`最近 100 局 RTP：${r100.toFixed(2)}%。`
+
+);
+
+}
+
+if(s.zeroCurrent>=5){
+
+messages.push(
+
+`目前已連續 ${s.zeroCurrent} 局 0 倍。`
+
+);
+
+}
+
+if(all.max>=10){
+
+messages.push(
+
+`歷史資料中曾出現 ${fmt(all.max)}x 高倍結果。`
+
+);
+
+}
+
+document.getElementById("signal")
+
+.innerHTML=
+
+messages.join("<br>");
+
+}
+
+/* =========================
+
+   Render
+
+========================= */
+
+function render(){
+
+let s=basicStats(data);
+
+let streak=streaks();
+
+if(!s){
+
+document.getElementById("rounds")
+
+.textContent="0";
+
+document.getElementById("rtp")
+
+.textContent="—";
+
+document.getElementById("totalBet")
+
+.textContent="0";
+
+document.getElementById("totalWin")
+
+.textContent="0";
+
+document.getElementById("net")
+
+.textContent="0";
+
+document.getElementById("avgMulti")
+
+.textContent="—";
+
+document.getElementById("avgWin")
+
+.textContent="—";
+
+document.getElementById("maxMulti")
+
+.textContent="—";
+
+}else{
+
+document.getElementById("rounds")
+
+.textContent=s.rounds;
+
+document.getElementById("rtp")
+
+.textContent=
+
+s.rtp.toFixed(2)+"%";
+
+document.getElementById("totalBet")
+
+.textContent=fmt(s.bet);
+
+document.getElementById("totalWin")
+
+.textContent=fmt(s.win);
+
+document.getElementById("net")
+
+.textContent=fmt(s.net);
+
+document.getElementById("avgMulti")
+
+.textContent=
+
+fmt(s.avg)+"x";
+
+document.getElementById("avgWin")
+
+.textContent=
+
+fmt(s.win/s.rounds);
+
+document.getElementById("maxMulti")
+
+.textContent=
+
+fmt(s.max)+"x";
+
+}
+
+document.getElementById("rtp10")
+
+.textContent=
+
+movingRTP(10)===null
+
+?"—"
+
+:movingRTP(10).toFixed(2)+"%";
+
+document.getElementById("rtp50")
+
+.textContent=
+
+movingRTP(50)===null
+
+?"—"
+
+:movingRTP(50).toFixed(2)+"%";
+
+document.getElementById("rtp100")
+
+.textContent=
+
+movingRTP(100)===null
+
+?"—"
+
+:movingRTP(100).toFixed(2)+"%";
+
+document.getElementById("rtp500")
+
+.textContent=
+
+movingRTP(500)===null
+
+?"—"
+
+:movingRTP(500).toFixed(2)+"%";
+
+document.getElementById("zeroStreak")
+
+.textContent=streak.zeroCurrent;
+
+document.getElementById("maxZeroStreak")
+
+.textContent=streak.zeroMax;
+
+document.getElementById("winStreak")
+
+.textContent=streak.winCurrent;
+
+document.getElementById("maxWinStreak")
+
+.textContent=streak.winMax;
+
+document.getElementById("twoX")
+
+.textContent=
+
+data.filter(r=>r.multiplier>=2).length;
+
+document.getElementById("fiveX")
+
+.textContent=
+
+data.filter(r=>r.multiplier>=5).length;
+
+document.getElementById("tenX")
+
+.textContent=
+
+data.filter(r=>r.multiplier>=10).length;
+
+document.getElementById("twentyX")
+
+.textContent=
+
+data.filter(r=>r.multiplier>=20).length;
+
+/* 表格 */
+
+let tbody=
+
+document.getElementById("records");
+
+tbody.innerHTML="";
+
+data.forEach((r,i)=>{
+
+let tr=document.createElement("tr");
+
+tr.innerHTML=`
+
+<td>${i+1}</td>
+
+<td>${fmt(r.bet)}</td>
+
+<td>${fmt(r.win)}</td>
+
+<td>${fmt(r.net)}</td>
+
+<td>${fmt(r.multiplier)}x</td>
+
+`;
+
+tbody.appendChild(tr);
+
+});
+
+renderDistribution();
+
+renderSegments();
+
+renderSignal();
+
+}
+
+/* =========================
+
+   CSV
+
+========================= */
+
+function exportCSV(){
+
+if(!data.length){
+
+alert("沒有資料");
+
+return;
+
+}
+
+let csv=
+
+"局數,投注,派彩,淨輸贏,倍數,時間\n";
+
+data.forEach((r,i)=>{
+
+csv+=
+
+`${i+1},${r.bet},${r.win},${r.net},${r.multiplier},${r.time}\n`;
+
+});
+
+let blob=
+
+new Blob(
+
+["\ufeff"+csv],
+
+{type:"text/csv;charset=utf-8"}
+
+);
+
+let url=
+
+URL.createObjectURL(blob);
+
+let a=
+
+document.createElement("a");
+
+a.href=url;
+
+a.download="RTP_Analyzer_Data.csv";
+
+a.click();
+
+URL.revokeObjectURL(url);
+
+}
+
+/* =========================
+
+   複製
+
+========================= */
+
+function copyStats(){
+
+if(!data.length){
+
+alert("沒有資料");
+
+return;
+
+}
+
+let s=basicStats(data);
+
+let text=
+
+`RTP Analyzer
+
+局數：${s.rounds}
+
+投注：${s.bet}
+
+派彩：${s.win}
+
+RTP：${s.rtp.toFixed(2)}%
+
+淨輸贏：${s.net}
+
+平均倍數：${s.avg.toFixed(4)}x
+
+最高倍數：${s.max.toFixed(4)}x
+
+最近10局 RTP：${movingRTP(10)?.toFixed(2) || "—"}%
+
+最近50局 RTP：${movingRTP(50)?.toFixed(2) || "—"}%
+
+最近100局 RTP：${movingRTP(100)?.toFixed(2) || "—"}%`;
+
+navigator.clipboard
+
+.writeText(text)
+
+.then(()=>alert("統計已複製"))
+
+.catch(()=>alert(text));
+
+}
+
+/* =========================
+
+   清除
+
+========================= */
+
+function clearAll(){
+
+if(!data.length)return;
+
+if(confirm("確定清除全部歷史資料？")){
+
+data=[];
+
+save();
+
+render();
+
+}
+
+}
+
+/* 啟動 */
+
+render();
+
+</script>
+
+</body>
+
+</html>
