@@ -3892,40 +3892,50 @@ window.onerror = function(message, source, lineno) {
 
 };
 
-window.onload = function() {
+window.onerror = function(message, source, lineno) {
+    showSystemError(
+        "程式錯誤：" +
+        message +
+        "｜第 " +
+        lineno +
+        " 行"
+    );
+    return false;
+};
 
+function initApp() {
     try {
-
         loadDB();
-
         bindInputEvents();
-
-        /*
-
-         * 如果重新整理時有正在進行的房間，
-
-         * 把房間設定載回輸入框一次。
-
-         */
 
         var s = getActiveSession();
 
         if (s) {
-
             $("roomName").value = s.name || "";
-
             $("startBankroll").value = s.startBankroll;
-
             $("riskLimit").value = s.risk;
-
         }
 
         renderAll();
 
         if (s) {
-
             setStatusMessage("已恢復進行中的房間。");
-
         } else {
+            setStatusMessage("系統正常，請開始新房。");
+        }
 
-            setStatusMessage("系統正常，請
+    } catch (e) {
+        showSystemError("啟動失敗：" + e.message);
+    }
+}
+
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initApp);
+} else {
+    initApp();
+}
+
+</script>
+
+</body>
+</html>
