@@ -1,285 +1,313 @@
 <!DOCTYPE html>
-
 <html lang="zh-Hant">
-
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-
 <title>RTP Analyzer V8.2</title>
 
 <style>
-
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 
-body{margin:0;background:#0b1020;color:#eaf0ff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;line-height:1.45}
-
-button,input,select{font:inherit}
-
-button{cursor:pointer;border:0}
-
-.app{max-width:1100px;margin:auto;padding:14px}
-
-.header{margin-bottom:12px}
-
-.header h1{margin:0;font-size:23px}
-
-.header p{margin:4px 0 0;color:#9eaccb;font-size:13px}
-
-.system{margin-top:9px;padding:8px 10px;border-radius:9px;background:#102b20;color:#7ff0b1;font-size:12px}
-
-.card{background:#121a2d;border:1px solid #263451;border-radius:14px;padding:14px;margin-bottom:12px}
-
-.card-title{font-size:16px;font-weight:700;margin-bottom:11px}
-
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
-
-.field label{display:block;color:#aeb9d3;font-size:12px;margin-bottom:5px}
-
-input,select{
-
-    width:100%;
-
-    min-height:44px;
-
-    padding:9px 10px;
-
-    border-radius:9px;
-
-    border:1px solid #344461;
-
-    background:#0c1324;
-
-    color:#fff;
-
-    outline:none
-
+body{
+    margin:0;
+    background:#0b1020;
+    color:#eaf0ff;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+    line-height:1.45
 }
 
-input:focus,select:focus{border-color:#5d8cff}
+.app{
+    max-width:1100px;
+    margin:auto;
+    padding:14px
+}
 
-.btn-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.header{
+    margin-bottom:12px
+}
+
+.header h1{
+    margin:0;
+    font-size:23px
+}
+
+.header p{
+    margin:4px 0 0;
+    color:#9eaccb;
+    font-size:13px
+}
+
+.system{
+    margin-top:9px;
+    padding:8px 10px;
+    border-radius:9px;
+    background:#102b20;
+    color:#7ff0b1;
+    font-size:12px
+}
+
+.card{
+    background:#121a2d;
+    border:1px solid #263451;
+    border-radius:14px;
+    padding:14px;
+    margin-bottom:12px
+}
+
+.card-title{
+    font-size:16px;
+    font-weight:700;
+    margin-bottom:11px
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:9px
+}
+
+.field label{
+    display:block;
+    color:#aeb9d3;
+    font-size:12px;
+    margin-bottom:5px
+}
+
+input,select{
+    width:100%;
+    min-height:44px;
+    padding:9px 10px;
+    border-radius:9px;
+    border:1px solid #344461;
+    background:#0c1324;
+    color:#fff;
+    outline:none
+}
+
+input:focus,select:focus{
+    border-color:#5d8cff
+}
+
+.btn-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-top:10px
+}
 
 .btn{
-
     min-height:44px;
-
     padding:9px 14px;
-
     border-radius:9px;
-
     color:#fff;
-
     background:#273653;
-
-    font-weight:700
-
+    font-weight:700;
+    border:0
 }
 
 .btn.primary{background:#246bfe}
-
 .btn.green{background:#16864d}
-
 .btn.orange{background:#a96213}
-
 .btn.red{background:#9d3030}
-
 .btn.gray{background:#39445a}
 
-.btn:active{transform:scale(.98)}
+.btn:active{
+    transform:scale(.98)
+}
 
-.status-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.status-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px
+}
 
 .status-box{
-
     background:#0c1324;
-
     border:1px solid #263451;
-
     border-radius:11px;
-
     padding:12px
-
 }
 
-.status-label{color:#9eaccb;font-size:12px}
+.status-label{
+    color:#9eaccb;
+    font-size:12px
+}
 
-.status-value{font-size:18px;font-weight:800;margin-top:4px}
+.status-value{
+    font-size:18px;
+    font-weight:800;
+    margin-top:4px
+}
 
-.small{color:#98a7c5;font-size:12px}
+.small{
+    color:#98a7c5;
+    font-size:12px
+}
 
 .good{color:#64e59d}
-
 .warn{color:#ffd166}
-
 .orange-text{color:#ffae54}
-
 .bad{color:#ff7070}
-
 .blue{color:#72a7ff}
 
-.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.metrics{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:8px
+}
 
 .metric{
-
     background:#0c1324;
-
     border:1px solid #263451;
-
     border-radius:10px;
-
     padding:10px
-
 }
 
-.metric .name{color:#9eaccb;font-size:11px}
+.metric .name{
+    color:#9eaccb;
+    font-size:11px
+}
 
-.metric .value{font-size:17px;font-weight:800;margin-top:3px}
+.metric .value{
+    font-size:17px;
+    font-weight:800;
+    margin-top:3px
+}
 
 .big-action{
-
     width:100%;
-
     min-height:58px;
-
     border-radius:11px;
-
     background:#246bfe;
-
     color:#fff;
-
     font-size:18px;
-
-    font-weight:800
-
+    font-weight:800;
+    border:0
 }
 
-.tabs{display:flex;overflow-x:auto;gap:6px;margin-bottom:10px}
+.tabs{
+    display:flex;
+    overflow-x:auto;
+    gap:6px;
+    margin-bottom:10px
+}
 
 .tab{
-
     white-space:nowrap;
-
     padding:9px 13px;
-
     border-radius:8px;
-
     background:#273653;
-
-    color:#c8d3eb
-
+    color:#c8d3eb;
+    border:0
 }
 
-.tab.active{background:#246bfe;color:#fff}
+.tab.active{
+    background:#246bfe;
+    color:#fff
+}
 
-.table-wrap{overflow-x:auto;border-radius:9px}
+.table-wrap{
+    overflow-x:auto;
+    border-radius:9px
+}
 
 table{
-
     width:100%;
-
     border-collapse:collapse;
-
     min-width:700px
-
 }
 
 th,td{
-
     padding:8px;
-
     border-bottom:1px solid #263451;
-
     text-align:right;
-
     white-space:nowrap;
-
     font-size:12px
-
 }
 
-th{color:#91a2c4;background:#0c1324}
+th{
+    color:#91a2c4;
+    background:#0c1324
+}
 
-td:first-child,th:first-child{text-align:left}
+td:first-child,
+th:first-child{
+    text-align:left
+}
 
-.empty{padding:22px 10px;text-align:center;color:#7787a7}
+.empty{
+    padding:22px 10px;
+    text-align:center;
+    color:#7787a7
+}
 
 .free-box{
-
     background:#101a31;
-
     border:1px solid #32456e;
-
     border-radius:11px;
-
     padding:12px
-
 }
 
-.hidden{display:none!important}
+.hidden{
+    display:none!important
+}
 
-.window-buttons{display:flex;gap:6px;flex-wrap:wrap}
+.window-buttons{
+    display:flex;
+    gap:6px;
+    flex-wrap:wrap
+}
 
 .window-btn{
-
     padding:8px 11px;
-
     border-radius:8px;
-
     background:#273653;
-
-    color:#dce6fb
-
+    color:#dce6fb;
+    border:0
 }
 
-.window-btn.active{background:#246bfe}
+.window-btn.active{
+    background:#246bfe
+}
 
 .notice{
-
     padding:9px 10px;
-
     border-radius:9px;
-
     background:#18243d;
-
     color:#aebbd5;
-
     font-size:12px;
-
     margin-top:9px
-
 }
 
 .danger-box{
-
     border:1px solid #733a3a;
-
     background:#26151a
-
 }
 
 @media(max-width:760px){
+    .grid{
+        grid-template-columns:repeat(2,1fr)
+    }
 
-    .grid{grid-template-columns:repeat(2,1fr)}
-
-    .metrics{grid-template-columns:repeat(2,1fr)}
-
+    .metrics{
+        grid-template-columns:repeat(2,1fr)
+    }
 }
 
 @media(max-width:480px){
+    .app{
+        padding:9px
+    }
 
-    .app{padding:9px}
+    .grid{
+        grid-template-columns:1fr
+    }
 
-    .grid{grid-template-columns:1fr}
-
-    .card{padding:11px}
-
+    .card{
+        padding:11px
+    }
 }
-
 </style>
-
 </head>
 
 <body>
@@ -287,857 +315,741 @@ td:first-child,th:first-child{text-align:left}
 <div class="app">
 
 <div class="header">
+    <h1>🎰 RTP Analyzer V8.2</h1>
+    <p>房間資金、RTP、免遊、回撤與歷史統計</p>
 
-<h1>🎰 RTP Analyzer V8.2</h1>
+    <div id="systemStatus" class="system">
+        系統載入中…
+    </div>
 
-<p>房間資金、RTP、免遊、回撤與歷史統計</p>
-
-<div id="systemStatus" class="system">系統載入中…</div>
-
-<div id="appError" class="hidden"></div>
-
+    <div id="appError" class="hidden"></div>
 </div>
+
 
 <!-- 房間設定 -->
-
 <div class="card">
 
-<div class="card-title">🏠 房間設定</div>
+    <div class="card-title">🏠 房間設定</div>
 
-<div class="grid">
+    <div class="grid">
 
-<div class="field">
+        <div class="field">
+            <label>房間名稱</label>
+            <input id="roomName" type="text" placeholder="例如：9/18 晚場">
+        </div>
 
-<label>房間名稱</label>
+        <div class="field">
+            <label>入場本金</label>
+            <input id="startBankroll" type="number" inputmode="decimal" placeholder="10000">
+        </div>
 
-<input id="roomName" type="text" placeholder="例如：9/18 晚場">
+        <div class="field">
+            <label>風險上限</label>
+            <input id="riskLimit" type="number" inputmode="decimal" placeholder="3000">
+        </div>
 
-</div>
+        <div class="field">
+            <label>目前設定</label>
+            <div id="settingInfo" class="small" style="padding-top:12px">
+                尚未開始房間
+            </div>
+        </div>
 
-<div class="field">
+    </div>
 
-<label>入場本金</label>
-
-<input id="startBankroll" type="number" inputmode="decimal" placeholder="10000">
-
-</div>
-
-<div class="field">
-
-<label>風險上限</label>
-
-<input id="riskLimit" type="number" inputmode="decimal" placeholder="3000">
-
-</div>
-
-<div class="field">
-
-<label>目前設定</label>
-
-<div id="settingInfo" class="small" style="padding-top:12px">尚未開始房間</div>
-
-</div>
-
-</div>
-
-<div class="btn-row">
-
-<button class="btn primary" onclick="startSession()">▶ 開始新房</button>
-
-<button class="btn green" onclick="applySettings()">✓ 套用目前設定</button>
-
-<button class="btn red" onclick="endSession()">■ 結束房間</button>
-
-<button class="btn gray" onclick="newSession()">＋ 清空開新房</button>
+    <div class="btn-row">
+        <button class="btn primary" onclick="startSession()">▶ 開始新房</button>
+        <button class="btn green" onclick="applySettings()">✓ 套用目前設定</button>
+        <button class="btn red" onclick="endSession()">■ 結束房間</button>
+        <button class="btn gray" onclick="newSession()">＋ 清空開新房</button>
+    </div>
 
 </div>
 
-</div>
 
-<!-- 狀態 -->
-
+<!-- 房間狀態 -->
 <div class="card">
 
-<div class="status-grid">
+    <div class="status-grid">
 
-<div class="status-box">
+        <div class="status-box">
+            <div class="status-label">本房狀態</div>
+            <div id="roomStatus" class="status-value">未開始</div>
+            <div id="roomSubStatus" class="small">請先開始房間</div>
+        </div>
 
-<div class="status-label">本房狀態</div>
+        <div class="status-box">
+            <div class="status-label">風險狀態</div>
+            <div id="riskState" class="status-value">⚪ 等待資料</div>
+            <div id="riskSub" class="small">尚無統計資料</div>
+        </div>
 
-<div id="roomStatus" class="status-value">未開始</div>
+    </div>
 
-<div id="roomSubStatus" class="small">請先開始房間</div>
+    <div style="height:10px"></div>
 
-</div>
+    <div class="metrics">
 
-<div class="status-box">
+        <div class="metric">
+            <div class="name">目前餘額</div>
+            <div id="balance" class="value">—</div>
+        </div>
 
-<div class="status-label">風險狀態</div>
+        <div class="metric">
+            <div class="name">累計淨損益</div>
+            <div id="totalNet" class="value">—</div>
+        </div>
 
-<div id="riskState" class="status-value">⚪ 等待資料</div>
+        <div class="metric">
+            <div class="name">普通轉 RTP</div>
+            <div id="mainRtp" class="value">—</div>
+        </div>
 
-<div id="riskSub" class="small">尚無統計資料</div>
+        <div class="metric">
+            <div class="name">目前回撤</div>
+            <div id="drawdown" class="value">—</div>
+        </div>
 
-</div>
-
-</div>
-
-<div style="height:10px"></div>
-
-<div class="metrics">
-
-<div class="metric">
-
-<div class="name">目前餘額</div>
-
-<div id="balance" class="value">—</div>
-
-</div>
-
-<div class="metric">
-
-<div class="name">累計淨損益</div>
-
-<div id="totalNet" class="value">—</div>
-
-</div>
-
-<div class="metric">
-
-<div class="name">普通轉 RTP</div>
-
-<div id="mainRtp" class="value">—</div>
+    </div>
 
 </div>
 
-<div class="metric">
-
-<div class="name">目前回撤</div>
-
-<div id="drawdown" class="value">—</div>
-
-</div>
-
-</div>
-
-</div>
 
 <!-- 普通轉 -->
-
 <div class="card">
 
-<div class="card-title">🎯 普通轉</div>
+    <div class="card-title">🎯 普通轉</div>
 
-<div class="grid">
+    <div class="grid">
 
-<div class="field">
+        <div class="field">
+            <label>本次下注</label>
+            <input id="spinBet" type="number" inputmode="decimal" placeholder="例如 100">
+        </div>
 
-<label>本次下注</label>
+        <div class="field">
+            <label>本次派彩</label>
+            <input id="spinWin" type="number" inputmode="decimal" placeholder="例如 500">
+        </div>
 
-<input id="spinBet" type="number" inputmode="decimal" placeholder="例如 100">
+        <div class="field">
+            <label>目前轉數</label>
+            <div id="spinCount" class="status-value">0</div>
+        </div>
 
-</div>
+        <div class="field">
+            <label>目前窗口</label>
+            <div id="windowText" class="small" style="padding-top:11px">
+                尚無資料
+            </div>
+        </div>
 
-<div class="field">
+    </div>
 
-<label>本次派彩</label>
+    <div style="height:10px"></div>
 
-<input id="spinWin" type="number" inputmode="decimal" placeholder="例如 500">
+    <button class="big-action" onclick="addSpin()">
+        ＋ 普通一轉
+    </button>
 
-</div>
-
-<div class="field">
-
-<label>目前轉數</label>
-
-<div id="spinCount" class="status-value">0</div>
-
-</div>
-
-<div class="field">
-
-<label>目前窗口</label>
-
-<div id="windowText" class="small" style="padding-top:11px">尚無資料</div>
-
-</div>
-
-</div>
-
-<div style="height:10px"></div>
-
-<button class="big-action" onclick="addSpin()">＋ 普通一轉</button>
-
-<div class="btn-row">
-
-<button class="btn gray" onclick="undoSpin()">↩ 撤銷最後一轉</button>
+    <div class="btn-row">
+        <button class="btn gray" onclick="undoSpin()">
+            ↩ 撤銷最後一轉
+        </button>
+    </div>
 
 </div>
 
-</div>
 
 <!-- RTP 分析窗口 -->
-
 <div class="card">
 
-<div class="card-title">📊 RTP 分析窗口</div>
+    <div class="card-title">📊 RTP 分析窗口</div>
 
-<div class="window-buttons">
+    <div class="window-buttons">
 
-<button id="win10" class="window-btn active" onclick="setWindow(10)">10轉</button>
+        <button id="win10"
+                class="window-btn active"
+                onclick="setWindow(10)">
+            10轉
+        </button>
 
-<button id="win50" class="window-btn" onclick="setWindow(50)">50轉</button>
+        <button id="win50"
+                class="window-btn"
+                onclick="setWindow(50)">
+            50轉
+        </button>
 
-<button id="win100" class="window-btn" onclick="setWindow(100)">100轉</button>
+        <button id="win100"
+                class="window-btn"
+                onclick="setWindow(100)">
+            100轉
+        </button>
 
-<button id="win200" class="window-btn" onclick="setWindow(200)">200轉</button>
+        <button id="win200"
+                class="window-btn"
+                onclick="setWindow(200)">
+            200轉
+        </button>
 
-<button id="winAll" class="window-btn" onclick="setWindow(0)">全部</button>
+        <button id="winAll"
+                class="window-btn"
+                onclick="setWindow(0)">
+            全部
+        </button>
 
-</div>
+    </div>
 
-<div id="windowNotice" class="notice">尚無普通轉資料。</div>
+    <div id="windowNotice" class="notice">
+        尚無普通轉資料。
+    </div>
 
-<div style="height:10px"></div>
+    <div style="height:10px"></div>
 
-<div class="metrics">
+    <div class="metrics">
 
-<div class="metric">
+        <div class="metric">
+            <div class="name">窗口下注</div>
+            <div id="windowBet" class="value">—</div>
+        </div>
 
-<div class="name">窗口下注</div>
+        <div class="metric">
+            <div class="name">窗口派彩</div>
+            <div id="windowWin" class="value">—</div>
+        </div>
 
-<div id="windowBet" class="value">—</div>
+        <div class="metric">
+            <div class="name">窗口淨損益</div>
+            <div id="windowNet" class="value">—</div>
+        </div>
 
-</div>
+        <div class="metric">
+            <div class="name">窗口波動</div>
+            <div id="windowVol" class="value">—</div>
+        </div>
 
-<div class="metric">
+    </div>
 
-<div class="name">窗口派彩</div>
+    <div style="height:8px"></div>
 
-<div id="windowWin" class="value">—</div>
+    <div class="metrics">
 
-</div>
+        <div class="metric">
+            <div class="name">窗口 RTP</div>
+            <div id="windowRtp" class="value">—</div>
+        </div>
 
-<div class="metric">
+        <div class="metric">
+            <div class="name">低回報分數</div>
+            <div id="lowScore" class="value">—</div>
+        </div>
 
-<div class="name">窗口淨損益</div>
+        <div class="metric">
+            <div class="name">窗口最大回撤</div>
+            <div id="maxDrawdown" class="value">—</div>
+        </div>
 
-<div id="windowNet" class="value">—</div>
+        <div class="metric">
+            <div class="name">風險上限使用</div>
+            <div id="riskUsage" class="value">—</div>
+        </div>
 
-</div>
-
-<div class="metric">
-
-<div class="name">窗口波動</div>
-
-<div id="windowVol" class="value">—</div>
-
-</div>
-
-</div>
-
-<div style="height:8px"></div>
-
-<div class="metrics">
-
-<div class="metric">
-
-<div class="name">窗口 RTP</div>
-
-<div id="windowRtp" class="value">—</div>
-
-</div>
-
-<div class="metric">
-
-<div class="name">低回報分數</div>
-
-<div id="lowScore" class="value">—</div>
-
-</div>
-
-<div class="metric">
-
-<div class="name">窗口最大回撤</div>
-
-<div id="maxDrawdown" class="value">—</div>
-
-</div>
-
-<div class="metric">
-
-<div class="name">風險上限使用</div>
-
-<div id="riskUsage" class="value">—</div>
-
-</div>
-
-</div>
+    </div>
 
 </div>
+
 
 <!-- 自然免遊 -->
-
 <div class="card">
 
-<div class="card-title">🎰 自然免遊</div>
+    <div class="card-title">🎰 自然免遊</div>
 
-<div class="free-box">
+    <div class="free-box">
 
-<div class="small">
+        <div class="small">
+            觸發免遊時，不會增加普通轉數。只記錄觸發轉數、間隔與最後總派彩。
+            <br>
+            <strong>
+                自然免遊完成後，會先保存目前普通轉區段，再重新開始新的普通轉 RTP 區段。
+            </strong>
+        </div>
 
-觸發免遊時，不會增加普通轉數。
+        <div id="pendingFreeArea" class="hidden" style="margin-top:10px">
 
-只記錄觸發轉數、間隔與最後總派彩。
+            <div class="notice">
+                已記錄免遊觸發。
+                目前觸發轉數：
+                <strong id="pendingFreeSpin">0</strong>
+            </div>
 
-<br>
+            <div class="grid" style="margin-top:9px">
 
-<strong>自然免遊完成後，會自動切斷目前普通轉 RTP 區段。</strong>
+                <div class="field">
+                    <label>免遊最終總派彩</label>
+                    <input id="freeWin"
+                           type="number"
+                           inputmode="decimal"
+                           placeholder="例如 2500">
+                </div>
 
-</div>
+                <div class="field">
+                    <label>免遊轉數（可不填）</label>
+                    <input id="freeSpinCount"
+                           type="number"
+                           inputmode="numeric"
+                           placeholder="例如 20">
+                </div>
 
-<div id="pendingFreeArea" class="hidden" style="margin-top:10px">
+            </div>
 
-<div class="notice">
+            <div class="btn-row">
 
-已記錄免遊觸發。
+                <button class="btn green" onclick="confirmFree()">
+                    ✓ 完成免遊
+                </button>
 
-目前觸發轉數：
+                <button class="btn gray" onclick="cancelFree()">
+                    取消
+                </button>
 
-<strong id="pendingFreeSpin">0</strong>
+            </div>
 
-</div>
+        </div>
 
-<div class="grid" style="margin-top:9px">
+        <div id="freeStartArea" style="margin-top:10px">
 
-<div class="field">
+            <button class="btn primary" onclick="triggerFree()">
+                🎰 記錄進入免遊
+            </button>
 
-<label>免遊最終總派彩</label>
+        </div>
 
-<input id="freeWin" type="number" inputmode="decimal" placeholder="例如 2500">
+    </div>
 
-</div>
+    <div style="height:10px"></div>
 
-<div class="field">
+    <div class="metrics">
 
-<label>免遊轉數（可不填）</label>
+        <div class="metric">
+            <div class="name">自然免遊次數</div>
+            <div id="freeCount" class="value">0</div>
+        </div>
 
-<input id="freeSpinCount" type="number" inputmode="numeric" placeholder="例如 20">
+        <div class="metric">
+            <div class="name">目前間隔</div>
+            <div id="currentGap" class="value">—</div>
+        </div>
 
-</div>
+        <div class="metric">
+            <div class="name">平均間隔</div>
+            <div id="avgGap" class="value">—</div>
+        </div>
 
-</div>
+        <div class="metric">
+            <div class="name">中位數間隔</div>
+            <div id="medianGap" class="value">—</div>
+        </div>
 
-<div class="btn-row">
+    </div>
 
-<button class="btn green" onclick="confirmFree()">✓ 完成免遊</button>
+    <div style="height:8px"></div>
 
-<button class="btn gray" onclick="cancelFree()">取消</button>
+    <div class="metrics">
 
-</div>
+        <div class="metric">
+            <div class="name">最小／最大間隔</div>
+            <div id="minMaxGap" class="value">—</div>
+        </div>
 
-</div>
+        <div class="metric">
+            <div class="name">平均免遊派彩</div>
+            <div id="avgFreeWin" class="value">—</div>
+        </div>
 
-<div id="freeStartArea" style="margin-top:10px">
+        <div class="metric">
+            <div class="name">最高免遊派彩</div>
+            <div id="maxFreeWin" class="value">—</div>
+        </div>
 
-<button class="btn primary" onclick="triggerFree()">🎰 記錄進入免遊</button>
+        <div class="metric">
+            <div class="name">目前／中位數</div>
+            <div id="gapRatio" class="value">—</div>
+        </div>
 
-</div>
+    </div>
 
-</div>
-
-<div style="height:10px"></div>
-
-<div class="metrics">
-
-<div class="metric">
-
-<div class="name">自然免遊次數</div>
-
-<div id="freeCount" class="value">0</div>
-
-</div>
-
-<div class="metric">
-
-<div class="name">目前間隔</div>
-
-<div id="currentGap" class="value">—</div>
-
-</div>
-
-<div class="metric">
-
-<div class="name">平均間隔</div>
-
-<div id="avgGap" class="value">—</div>
-
-</div>
-
-<div class="metric">
-
-<div class="name">中位數間隔</div>
-
-<div id="medianGap" class="value">—</div>
-
-</div>
-
-</div>
-
-<div style="height:8px"></div>
-
-<div class="metrics">
-
-<div class="metric">
-
-<div class="name">最小／最大間隔</div>
-
-<div id="minMaxGap" class="value">—</div>
-
-</div>
-
-<div class="metric">
-
-<div class="name">平均免遊派彩</div>
-
-<div id="avgFreeWin" class="value">—</div>
+    <div id="freeWarning" class="notice">
+        尚無免遊間隔資料。
+    </div>
 
 </div>
 
-<div class="metric">
-
-<div class="name">最高免遊派彩</div>
-
-<div id="maxFreeWin" class="value">—</div>
-
-</div>
-
-<div class="metric">
-
-<div class="name">目前／中位數</div>
-
-<div id="gapRatio" class="value">—</div>
-
-</div>
-
-</div>
-
-<div id="freeWarning" class="notice">尚無免遊間隔資料。</div>
-
-</div>
 
 <!-- 區段 RTP -->
-
 <div class="card">
 
-<div class="card-title">📐 免遊前後普通轉區段 RTP</div>
+    <div class="card-title">📐 免遊前後普通轉區段 RTP</div>
 
-<div class="metrics">
+    <div class="metrics">
 
-<div class="metric">
+        <div class="metric">
+            <div class="name">目前區段</div>
+            <div id="segmentCurrent" class="value">—</div>
+        </div>
 
-<div class="name">目前區段</div>
+        <div class="metric">
+            <div class="name">目前區段轉數</div>
+            <div id="segmentRange" class="value">—</div>
+        </div>
 
-<div id="segmentCurrent" class="value">—</div>
+        <div class="metric">
+            <div class="name">目前區段 RTP</div>
+            <div id="segmentRtp" class="value">—</div>
+        </div>
 
-</div>
+        <div class="metric">
+            <div class="name">已形成區段</div>
+            <div id="segmentCount" class="value">0</div>
+        </div>
 
-<div class="metric">
+    </div>
 
-<div class="name">目前區段範圍</div>
+    <div id="segmentNotice" class="notice">
+        尚無普通轉區段資料。
+    </div>
 
-<div id="segmentRange" class="value">—</div>
+    <div style="height:10px"></div>
 
-</div>
-
-<div class="metric">
-
-<div class="name">目前區段 RTP</div>
-
-<div id="segmentRtp" class="value">—</div>
-
-</div>
-
-<div class="metric">
-
-<div class="name">已形成區段</div>
-
-<div id="segmentCount" class="value">0</div>
-
-</div>
+    <div id="segmentArea"></div>
 
 </div>
 
-<div id="segmentNotice" class="notice">尚無普通轉區段資料。</div>
-
-<div style="height:10px"></div>
-
-<div id="segmentArea"></div>
-
-</div>
 
 <!-- 購買免遊 -->
-
 <div class="card">
 
-<div class="card-title">🛒 購買免遊</div>
+    <div class="card-title">🛒 購買免遊</div>
 
-<div class="grid">
+    <div class="grid">
 
-<div class="field">
+        <div class="field">
+            <label>購買成本</label>
+            <input id="buyCost"
+                   type="number"
+                   inputmode="decimal"
+                   placeholder="例如 2000">
+        </div>
 
-<label>購買成本</label>
+        <div class="field">
+            <label>最終總派彩</label>
+            <input id="buyWin"
+                   type="number"
+                   inputmode="decimal"
+                   placeholder="例如 3500">
+        </div>
 
-<input id="buyCost" type="number" inputmode="decimal" placeholder="例如 2000">
+        <div class="field">
+            <label>免遊轉數（可不填）</label>
+            <input id="buyFreeSpinCount"
+                   type="number"
+                   inputmode="numeric"
+                   placeholder="例如 20">
+        </div>
 
-</div>
+        <div class="field">
+            <label>購買後淨損益</label>
+            <div id="buyPreview" class="status-value">—</div>
+        </div>
 
-<div class="field">
+    </div>
 
-<label>最終總派彩</label>
+    <div class="btn-row">
 
-<input id="buyWin" type="number" inputmode="decimal" placeholder="例如 3500">
+        <button class="btn orange" onclick="addBuy()">
+            ＋ 記錄購買免遊
+        </button>
 
-</div>
+    </div>
 
-<div class="field">
+    <div style="height:10px"></div>
 
-<label>免遊轉數（可不填）</label>
+    <div class="metrics">
 
-<input id="buyFreeSpinCount" type="number" inputmode="numeric" placeholder="例如 20">
+        <div class="metric">
+            <div class="name">購買次數</div>
+            <div id="buyCount" class="value">0</div>
+        </div>
 
-</div>
+        <div class="metric">
+            <div class="name">購買總成本</div>
+            <div id="buyCostTotal" class="value">—</div>
+        </div>
 
-<div class="field">
+        <div class="metric">
+            <div class="name">購買總派彩</div>
+            <div id="buyWinTotal" class="value">—</div>
+        </div>
 
-<label>購買後淨損益</label>
+        <div class="metric">
+            <div class="name">購買免遊 RTP</div>
+            <div id="buyRtp" class="value">—</div>
+        </div>
 
-<div id="buyPreview" class="status-value">—</div>
-
-</div>
-
-</div>
-
-<div class="btn-row">
-
-<button class="btn orange" onclick="addBuy()">＋ 記錄購買免遊</button>
-
-</div>
-
-<div style="height:10px"></div>
-
-<div class="metrics">
-
-<div class="metric">
-
-<div class="name">購買次數</div>
-
-<div id="buyCount" class="value">0</div>
-
-</div>
-
-<div class="metric">
-
-<div class="name">購買總成本</div>
-
-<div id="buyCostTotal" class="value">—</div>
-
-</div>
-
-<div class="metric">
-
-<div class="name">購買總派彩</div>
-
-<div id="buyWinTotal" class="value">—</div>
-
-</div>
-
-<div class="metric">
-
-<div class="name">購買免遊 RTP</div>
-
-<div id="buyRtp" class="value">—</div>
+    </div>
 
 </div>
 
-</div>
-
-</div>
 
 <!-- 資金 -->
-
 <div class="card">
 
-<div class="card-title">💰 本房資金明細</div>
+    <div class="card-title">💰 本房資金明細</div>
 
-<div class="metrics">
+    <div class="metrics">
 
-<div class="metric">
+        <div class="metric">
+            <div class="name">普通轉淨損益</div>
+            <div id="normalNet" class="value">—</div>
+        </div>
 
-<div class="name">普通轉淨損益</div>
+        <div class="metric">
+            <div class="name">自然免遊派彩</div>
+            <div id="naturalMoney" class="value">—</div>
+        </div>
 
-<div id="normalNet" class="value">—</div>
+        <div class="metric">
+            <div class="name">購買免遊淨損益</div>
+            <div id="purchaseNet" class="value">—</div>
+        </div>
 
-</div>
+        <div class="metric">
+            <div class="name">總資金淨損益</div>
+            <div id="moneyNet" class="value">—</div>
+        </div>
 
-<div class="metric">
+    </div>
 
-<div class="name">自然免遊派彩</div>
-
-<div id="naturalMoney" class="value">—</div>
-
-</div>
-
-<div class="metric">
-
-<div class="name">購買免遊淨損益</div>
-
-<div id="purchaseNet" class="value">—</div>
-
-</div>
-
-<div class="metric">
-
-<div class="name">總資金淨損益</div>
-
-<div id="moneyNet" class="value">—</div>
-
-</div>
+    <div class="notice">
+        計算方式：普通轉＝派彩－下注；
+        自然免遊＝總派彩；
+        購買免遊＝派彩－購買成本。
+        三者合計後才計入本房實際資金損益。
+    </div>
 
 </div>
 
-<div class="notice">
-
-計算方式：普通轉＝派彩－下注；自然免遊＝總派彩；購買免遊＝派彩－購買成本。
-
-三者合計後才計入本房實際資金損益。
-
-</div>
-
-</div>
 
 <!-- 歷史 -->
-
 <div class="card">
 
-<div class="card-title">📚 歷史紀錄</div>
+    <div class="card-title">📚 歷史紀錄</div>
 
-<div class="tabs">
+    <div class="tabs">
 
-<button id="tabSpins" class="tab active" onclick="setHistoryTab('spins')">普通轉</button>
+        <button id="tabSpins"
+                class="tab active"
+                onclick="setHistoryTab('spins')">
+            普通轉
+        </button>
 
-<button id="tabFrees" class="tab" onclick="setHistoryTab('frees')">自然免遊</button>
+        <button id="tabFrees"
+                class="tab"
+                onclick="setHistoryTab('frees')">
+            自然免遊
+        </button>
 
-<button id="tabBuys" class="tab" onclick="setHistoryTab('buys')">購買免遊</button>
+        <button id="tabBuys"
+                class="tab"
+                onclick="setHistoryTab('buys')">
+            購買免遊
+        </button>
 
-<button id="tabSessions" class="tab" onclick="setHistoryTab('sessions')">房間</button>
+        <button id="tabSessions"
+                class="tab"
+                onclick="setHistoryTab('sessions')">
+            房間
+        </button>
+
+    </div>
+
+    <div id="historyArea"></div>
 
 </div>
 
-<div id="historyArea"></div>
 
-</div>
-
-<!-- 資料 -->
-
+<!-- 資料管理 -->
 <div class="card">
 
-<div class="card-title">💾 資料管理</div>
+    <div class="card-title">💾 資料管理</div>
 
-<div class="btn-row">
+    <div class="btn-row">
 
-<button class="btn primary" onclick="exportJSON()">⬇ JSON 備份</button>
+        <button class="btn primary" onclick="exportJSON()">
+            ⬇ JSON 備份
+        </button>
 
-<label class="btn gray" style="display:inline-flex;align-items:center;justify-content:center">
+        <label class="btn gray"
+               style="display:inline-flex;align-items:center;justify-content:center">
 
-⬆ JSON 還原
+            ⬆ JSON 還原
 
-<input id="jsonFile" type="file" accept=".json,application/json" style="display:none" onchange="importJSON(event)">
+            <input id="jsonFile"
+                   type="file"
+                   accept=".json,application/json"
+                   style="display:none"
+                   onchange="importJSON(event)">
 
-</label>
+        </label>
 
-<button class="btn green" onclick="exportCSV()">⬇ CSV 匯出</button>
+        <button class="btn green" onclick="exportCSV()">
+            ⬇ CSV 匯出
+        </button>
 
-<button class="btn red" onclick="clearAllData()">⚠ 清除全部資料</button>
+        <button class="btn red" onclick="clearAllData()">
+            ⚠ 清除全部資料
+        </button>
+
+    </div>
+
+    <div class="notice">
+        資料會自動保存於目前裝置的瀏覽器 localStorage。
+        建議定期使用 JSON 備份。
+    </div>
 
 </div>
 
-<div class="notice">
-
-資料會自動保存於目前裝置的瀏覽器 localStorage。
-
-建議定期使用 JSON 備份。
-
 </div>
 
-</div>
-
-</div>
 
 <script>
 
+/* =========================================================
+   RTP ANALYZER V8.2
+   ========================================================= */
+
+/* 保留 V8.1 DB KEY，避免舊資料遺失 */
 var DB_KEY="rtp_analyzer_v81_db";
 
 var db={
-
-    version:81,
-
+    version:82,
     sessions:[],
-
     spins:[],
-
     frees:[],
-
     buys:[],
-
+    segments:[],
     active:null,
-
     pendingFree:null
-
 };
 
 var selectedWindow=10;
-
 var historyTab="spins";
 
+
+/* =========================================================
+   基本工具
+   ========================================================= */
+
 function $(id){
-
     return document.getElementById(id);
-
 }
 
 function nowISO(){
-
     return new Date().toISOString();
-
 }
 
-function uid(p){
-
-    return p+"_"+Date.now()+"_"+Math.floor(Math.random()*100000);
-
+function uid(prefix){
+    return prefix+"_"+Date.now()+"_"+Math.floor(Math.random()*100000);
 }
 
 function num(v){
-
     var n=Number(v);
-
     return isFinite(n)?n:0;
-
 }
 
 function money(v){
-
     return num(v).toLocaleString("zh-TW",{
-
         minimumFractionDigits:0,
-
         maximumFractionDigits:2
-
     });
-
 }
 
 function moneySigned(v){
-
     var n=num(v);
 
-    return n>0?"+"+money(n):n<0?"-"+money(Math.abs(n)):"0";
+    if(n>0)return "+"+money(n);
+    if(n<0)return "-"+money(Math.abs(n));
 
+    return "0";
 }
 
 function percent(v){
-
     return isFinite(v)?v.toFixed(2)+"%":"—";
-
 }
 
 function safeArray(v){
-
     return Array.isArray(v)?v:[];
-
 }
 
 function escapeHTML(s){
-
     return String(s==null?"":s)
-
         .replace(/&/g,"&amp;")
-
         .replace(/</g,"&lt;")
-
         .replace(/>/g,"&gt;")
-
         .replace(/"/g,"&quot;")
-
         .replace(/'/g,"&#039;");
-
 }
 
 function formatTime(t){
-
     if(!t)return"—";
 
     try{
-
         var d=new Date(t);
 
-        return isNaN(d.getTime())
+        if(isNaN(d.getTime()))return String(t);
 
-            ?String(t)
-
-            :d.toLocaleString("zh-TW",{hour12:false});
+        return d.toLocaleString("zh-TW",{
+            hour12:false
+        });
 
     }catch(e){
-
         return String(t);
-
     }
-
 }
 
 function defaultDB(){
-
     return{
-
-        version:81,
-
+        version:82,
         sessions:[],
-
         spins:[],
-
         frees:[],
-
         buys:[],
-
+        segments:[],
         active:null,
-
         pendingFree:null
-
     };
-
 }
 
 function normalizeDB(raw){
 
     var d=defaultDB();
 
-    if(!raw||typeof raw!=="object")return d;
+    if(!raw||typeof raw!=="object"){
+        return d;
+    }
 
     d.sessions=safeArray(raw.sessions);
-
     d.spins=safeArray(raw.spins);
-
     d.frees=safeArray(raw.frees);
-
     d.buys=safeArray(raw.buys);
+    d.segments=safeArray(raw.segments);
 
     d.active=raw.active||null;
-
     d.pendingFree=raw.pendingFree||null;
 
-    return d;
+    /* 舊 V8.1 / V8.2 資料直接升級 */
+    d.version=82;
 
+    return d;
 }
 
 function loadDB(){
@@ -1147,9 +1059,7 @@ function loadDB(){
         var raw=localStorage.getItem(DB_KEY);
 
         db=raw
-
             ?normalizeDB(JSON.parse(raw))
-
             :defaultDB();
 
     }catch(e){
@@ -1157,28 +1067,34 @@ function loadDB(){
         db=defaultDB();
 
         try{
-
             localStorage.removeItem(DB_KEY);
-
         }catch(ignore){}
 
     }
-
 }
 
 function saveDB(){
 
     try{
 
-        localStorage.setItem(DB_KEY,JSON.stringify(db));
+        localStorage.setItem(
+            DB_KEY,
+            JSON.stringify(db)
+        );
 
     }catch(e){
 
-        showSystemError("資料保存失敗："+e.message);
+        showSystemError(
+            "資料保存失敗："+e.message
+        );
 
     }
-
 }
+
+
+/* =========================================================
+   房間資料
+   ========================================================= */
 
 function getActiveSession(){
 
@@ -1187,15 +1103,12 @@ function getActiveSession(){
     for(var i=0;i<db.sessions.length;i++){
 
         if(db.sessions[i].id===db.active){
-
             return db.sessions[i];
-
         }
 
     }
 
     return null;
-
 }
 
 function getSessionSpins(){
@@ -1205,19 +1118,14 @@ function getSessionSpins(){
     if(!s)return[];
 
     var a=db.spins.filter(function(x){
-
         return x.sessionId===s.id;
-
     });
 
     a.sort(function(a,b){
-
         return num(a.index)-num(b.index);
-
     });
 
     return a;
-
 }
 
 function getSessionFrees(){
@@ -1227,19 +1135,15 @@ function getSessionFrees(){
     if(!s)return[];
 
     var a=db.frees.filter(function(x){
-
         return x.sessionId===s.id;
-
     });
 
     a.sort(function(a,b){
-
-        return num(a.triggerSpinNumber)-num(b.triggerSpinNumber);
-
+        return num(a.triggerSpinNumber)-
+               num(b.triggerSpinNumber);
     });
 
     return a;
-
 }
 
 function getSessionBuys(){
@@ -1249,73 +1153,418 @@ function getSessionBuys(){
     if(!s)return[];
 
     var a=db.buys.filter(function(x){
-
         return x.sessionId===s.id;
-
     });
 
     a.sort(function(a,b){
-
-        return new Date(a.time).getTime()-new Date(b.time).getTime();
-
+        return new Date(a.time).getTime()-
+               new Date(b.time).getTime();
     });
 
     return a;
-
 }
 
-/* =========================
 
-   房間
+/* =========================================================
+   區段系統
+   ========================================================= */
 
-========================= */
+/*
+    自然免遊前：
+    區段從 1 開始
+
+    例如：
+    普通 1～20
+    第 20 轉觸發免遊
+
+    第 1 區段：
+    1～20
+
+    免遊完成後：
+
+    第 2 區段：
+    從整房第 21 轉開始
+*/
+
+function getCurrentSegmentStartIndex(){
+
+    var frees=getSessionFrees();
+
+    if(!frees.length){
+        return 1;
+    }
+
+    return num(
+        frees[frees.length-1].triggerSpinNumber
+    )+1;
+}
+
+function getCurrentSegmentSpins(){
+
+    var spins=getSessionSpins();
+
+    var start=getCurrentSegmentStartIndex();
+
+    return spins.filter(function(x){
+        return num(x.index)>=start;
+    });
+}
+
+function getCurrentSegmentNumber(){
+
+    return getSessionFrees().length+1;
+}
+
+function getCurrentSegmentLocalIndex(){
+
+    return getCurrentSegmentSpins().length;
+}
+
+function buildSegment(
+    spins,
+    no,
+    start,
+    end,
+    status
+){
+
+    var rows=[];
+    var bet=0;
+    var win=0;
+    var net=0;
+
+    for(var i=0;i<spins.length;i++){
+
+        var idx=num(spins[i].index);
+
+        if(idx>=start&&idx<=end){
+
+            rows.push(spins[i]);
+
+            bet+=num(spins[i].bet);
+            win+=num(spins[i].win);
+            net+=num(spins[i].net);
+
+        }
+
+    }
+
+    return{
+        number:no,
+        startIndex:start,
+        endIndex:end,
+        count:rows.length,
+        bet:bet,
+        win:win,
+        net:net,
+        rtp:bet>0?win/bet*100:0,
+        status:status
+    };
+}
+
+
+/*
+    動態重建所有區段。
+
+    這個功能非常重要：
+    就算舊資料沒有 segments，
+    也可以從 spins + frees 重新建立。
+*/
+
+function getSessionSegments(){
+
+    var spins=getSessionSpins();
+    var frees=getSessionFrees();
+
+    if(!spins.length){
+        return[];
+    }
+
+    var result=[];
+    var start=1;
+    var no=1;
+
+    for(var i=0;i<frees.length;i++){
+
+        var trigger=
+            num(frees[i].triggerSpinNumber);
+
+        var end=
+            Math.min(trigger,spins.length);
+
+        if(start<=end){
+
+            result.push(
+                buildSegment(
+                    spins,
+                    no,
+                    start,
+                    end,
+                    "beforeFree"
+                )
+            );
+
+            no++;
+        }
+
+        start=trigger+1;
+    }
+
+    if(start<=spins.length){
+
+        result.push(
+            buildSegment(
+                spins,
+                no,
+                start,
+                spins.length,
+                "current"
+            )
+        );
+
+    }
+
+    return result;
+}
+
+
+/*
+    取得目前區段。
+
+    免遊剛完成、還沒有下一轉時：
+
+    count = 0
+    RTP = 0
+*/
+
+function getCurrentSegmentInfo(){
+
+    var spins=getSessionSpins();
+
+    var start=getCurrentSegmentStartIndex();
+
+    var no=getCurrentSegmentNumber();
+
+    if(start>spins.length){
+
+        return{
+            number:no,
+            startIndex:start,
+            endIndex:spins.length,
+            count:0,
+            bet:0,
+            win:0,
+            net:0,
+            rtp:0,
+            status:"current"
+        };
+
+    }
+
+    return buildSegment(
+        spins,
+        no,
+        start,
+        spins.length,
+        "current"
+    );
+}
+
+
+/*
+    在自然免遊完成前：
+
+    先把上一個普通轉區段保存。
+
+    防止完成免遊後區段資料消失。
+*/
+
+function saveCompletedSegment(){
+
+    var s=getActiveSession();
+
+    if(!s)return null;
+
+    var current=getCurrentSegmentInfo();
+
+    if(current.count<=0){
+        return null;
+    }
+
+    var existing=db.segments.filter(function(x){
+
+        return x.sessionId===s.id &&
+               num(x.number)===num(current.number);
+
+    });
+
+    if(existing.length){
+        return existing[0];
+    }
+
+    var segment={
+        id:uid("segment"),
+        sessionId:s.id,
+        number:current.number,
+        startIndex:current.startIndex,
+        endIndex:current.endIndex,
+        count:current.count,
+        bet:current.bet,
+        win:current.win,
+        net:current.net,
+        rtp:current.rtp,
+        completedAt:nowISO()
+    };
+
+    db.segments.push(segment);
+
+    return segment;
+}
+
+
+/* 已保存區段 */
+function getSavedSegments(){
+
+    var s=getActiveSession();
+
+    if(!s)return[];
+
+    var saved=db.segments.filter(function(x){
+        return x.sessionId===s.id;
+    });
+
+    saved.sort(function(a,b){
+        return num(a.number)-num(b.number);
+    });
+
+    return saved;
+}
+
+
+/*
+    V8.2 重要修正：
+
+    以前：
+    saved 有資料 → 只顯示 saved
+
+    這會造成動態重建區段消失。
+
+    現在：
+    saved + dynamic 合併
+*/
+
+function getDisplaySegments(){
+
+    var dynamic=getSessionSegments();
+
+    var saved=getSavedSegments();
+
+    var map={};
+
+    dynamic.forEach(function(x){
+        map[String(x.number)]=x;
+    });
+
+    saved.forEach(function(x){
+        map[String(x.number)]=x;
+    });
+
+    var result=Object.keys(map).map(function(k){
+        return map[k];
+    });
+
+    result.sort(function(a,b){
+        return num(a.number)-num(b.number);
+    });
+
+    return result;
+}
+
+
+/*
+    只計算真正已完成的區段。
+
+    目前正在進行的區段不算「已形成」。
+*/
+
+function getCompletedSegments(){
+
+    var s=getActiveSession();
+
+    if(!s)return[];
+
+    var all=getDisplaySegments();
+
+    var currentNo=getCurrentSegmentNumber();
+
+    return all.filter(function(x){
+
+        var saved=db.segments.some(function(y){
+
+            return y.sessionId===s.id &&
+                   num(y.number)===num(x.number);
+
+        });
+
+        if(saved)return true;
+
+        if(num(x.number)<currentNo)return true;
+
+        return false;
+    });
+}
+
+
+/* =========================================================
+   房間控制
+   ========================================================= */
 
 function startSession(){
 
     if(getActiveSession()){
 
-        setStatusMessage("目前已有進行中的房間，請先結束或套用設定。");
+        setStatusMessage(
+            "目前已有進行中的房間，請先結束或套用設定。"
+        );
 
         return;
-
     }
 
     var name=$("roomName").value.trim();
 
-    var bank=num($("startBankroll").value);
+    var bank=num(
+        $("startBankroll").value
+    );
 
-    var risk=num($("riskLimit").value);
+    var risk=num(
+        $("riskLimit").value
+    );
 
     if(bank<=0){
 
-        setStatusMessage("請輸入大於 0 的入場本金。");
+        setStatusMessage(
+            "請輸入大於 0 的入場本金。"
+        );
 
         return;
-
     }
 
     if(risk<0){
 
-        setStatusMessage("風險上限不能小於 0。");
+        setStatusMessage(
+            "風險上限不能小於 0。"
+        );
 
         return;
-
     }
 
     var s={
-
         id:uid("session"),
-
         name:name||"未命名房間",
-
         startBankroll:bank,
-
         risk:risk,
-
         startTime:nowISO(),
-
         endTime:null
-
     };
 
     db.sessions.push(s);
@@ -1328,8 +1577,9 @@ function startSession(){
 
     renderAll();
 
-    setStatusMessage("房間已開始。");
-
+    setStatusMessage(
+        "房間已開始。"
+    );
 }
 
 function applySettings(){
@@ -1338,32 +1588,39 @@ function applySettings(){
 
     if(!s){
 
-        setStatusMessage("請先開始房間。");
+        setStatusMessage(
+            "請先開始房間。"
+        );
 
         return;
-
     }
 
     var name=$("roomName").value.trim();
 
-    var bank=num($("startBankroll").value);
+    var bank=num(
+        $("startBankroll").value
+    );
 
-    var risk=num($("riskLimit").value);
+    var risk=num(
+        $("riskLimit").value
+    );
 
     if(bank<=0){
 
-        setStatusMessage("入場本金必須大於 0。");
+        setStatusMessage(
+            "入場本金必須大於 0。"
+        );
 
         return;
-
     }
 
     if(risk<0){
 
-        setStatusMessage("風險上限不能小於 0。");
+        setStatusMessage(
+            "風險上限不能小於 0。"
+        );
 
         return;
-
     }
 
     s.name=name||"未命名房間";
@@ -1376,8 +1633,9 @@ function applySettings(){
 
     renderAll();
 
-    setStatusMessage("目前設定已套用。歷史轉數不會被修改。");
-
+    setStatusMessage(
+        "目前設定已套用。歷史轉數不會被修改。"
+    );
 }
 
 function endSession(){
@@ -1386,18 +1644,20 @@ function endSession(){
 
     if(!s){
 
-        setStatusMessage("目前沒有進行中的房間。");
+        setStatusMessage(
+            "目前沒有進行中的房間。"
+        );
 
         return;
-
     }
 
     if(db.pendingFree){
 
-        setStatusMessage("目前還有尚未完成的免遊，請先完成或取消。");
+        setStatusMessage(
+            "目前還有尚未完成的免遊，請先完成或取消。"
+        );
 
         return;
-
     }
 
     s.endTime=nowISO();
@@ -1408,203 +1668,43 @@ function endSession(){
 
     renderAll();
 
-    setStatusMessage("房間已結束。");
-
+    setStatusMessage(
+        "房間已結束。"
+    );
 }
 
 function newSession(){
 
     if(getActiveSession()){
 
-        setStatusMessage("目前已有進行中的房間，不能直接清空開新房。");
+        setStatusMessage(
+            "目前已有進行中的房間，不能直接清空開新房。"
+        );
 
         return;
-
     }
 
     [
-
         "roomName",
-
         "startBankroll",
-
         "riskLimit",
-
         "spinBet",
-
         "spinWin"
-
     ].forEach(function(id){
 
         $(id).value="";
 
     });
 
-    setStatusMessage("已清空目前輸入，可以開始新房。");
-
-}
-
-/* =========================
-
-   ★★★ RTP 區段核心 ★★★
-
-   整房 index：
-
-   永遠 1、2、3、4……
-
-   區段 index：
-
-   每次自然免遊完成後重新從 1 開始。
-
-   普通轉 RTP：
-
-   只使用「目前區段」＋「選擇窗口」。
-
-========================= */
-
-function getCurrentSegmentStartIndex(){
-
-    var frees=getSessionFrees();
-
-    if(!frees.length){
-
-        return 1;
-
-    }
-
-    return num(frees[frees.length-1].triggerSpinNumber)+1;
-
-}
-
-function getCurrentSegmentNumber(){
-
-    return getSessionFrees().length+1;
-
-}
-
-function getCurrentSegmentSpins(){
-
-    var spins=getSessionSpins();
-
-    if(!spins.length)return[];
-
-    var start=getCurrentSegmentStartIndex();
-
-    return spins.filter(function(x){
-
-        return num(x.index)>=start;
-
-    });
-
-}
-
-/*
-
- ★ 這裡是最重要的 RTP 窗口
-
- 先取得「目前區段」
-
- 再根據 10 / 50 / 100 / 200 / 全部
-
- 取得最後 N 轉。
-
- 絕對不使用整房 spins。
-
-*/
-
-function getWindowData(){
-
-    var current=getCurrentSegmentSpins();
-
-    if(!current.length){
-
-        return[];
-
-    }
-
-    if(selectedWindow===0){
-
-        return current.slice();
-
-    }
-
-    var start=Math.max(
-
-        0,
-
-        current.length-selectedWindow
-
+    setStatusMessage(
+        "已清空目前輸入，可以開始新房。"
     );
-
-    return current.slice(start);
-
 }
 
-/*
 
- ★ 普通轉 RTP 唯一計算來源
-
-*/
-
-function getMainRTPData(){
-
-    return getWindowData();
-
-}
-
-function calculateRTP(rows){
-
-    if(!rows||!rows.length){
-
-        return{
-
-            bet:0,
-
-            win:0,
-
-            net:0,
-
-            rtp:0
-
-        };
-
-    }
-
-    var bet=0;
-
-    var win=0;
-
-    var net=0;
-
-    rows.forEach(function(x){
-
-        bet+=num(x.bet);
-
-        win+=num(x.win);
-
-        net+=num(x.net);
-
-    });
-
-    return{
-
-        bet:bet,
-
-        win:win,
-
-        net:net,
-
-        rtp:bet>0?win/bet*100:0
-
-    };
-
-}
-
-/* =========================
-
+/* =========================================================
    普通轉
-
-========================= */
+   ========================================================= */
 
 function addSpin(){
 
@@ -1612,59 +1712,55 @@ function addSpin(){
 
     if(!s){
 
-        setStatusMessage("請先開始房間。");
+        setStatusMessage(
+            "請先開始房間。"
+        );
 
         return;
-
     }
 
     if(db.pendingFree){
 
-        setStatusMessage("目前正在記錄免遊，請先完成或取消免遊。");
+        setStatusMessage(
+            "目前正在記錄免遊，請先完成或取消免遊。"
+        );
 
         return;
-
     }
 
-    var bet=num($("spinBet").value);
+    var bet=num(
+        $("spinBet").value
+    );
 
-    var win=num($("spinWin").value);
+    var win=num(
+        $("spinWin").value
+    );
 
     if(bet<=0){
 
-        setStatusMessage("請輸入本次下注金額。");
+        setStatusMessage(
+            "請輸入本次下注金額。"
+        );
 
         return;
-
     }
 
     if(win<0){
 
-        setStatusMessage("派彩不能小於 0。");
+        setStatusMessage(
+            "派彩不能小於 0。"
+        );
 
         return;
-
     }
-
-    /*
-
-     ★ 整房轉數
-
-    */
 
     var allSpins=getSessionSpins();
 
-    var index=allSpins.length+1;
+    var index=
+        allSpins.length+1;
 
-    /*
-
-     ★ 目前區段轉數
-
-     ★ 免遊完成後自然變成 1
-
-    */
-
-    var segmentIndex=getCurrentSegmentSpins().length+1;
+    var segmentIndex=
+        getCurrentSegmentSpins().length+1;
 
     db.spins.push({
 
@@ -1672,8 +1768,10 @@ function addSpin(){
 
         sessionId:s.id,
 
+        /* 整房轉數 */
         index:index,
 
+        /* 目前區段轉數 */
         segmentIndex:segmentIndex,
 
         bet:bet,
@@ -1695,11 +1793,12 @@ function addSpin(){
     renderAll();
 
     setStatusMessage(
-
-        "整房第 "+index+" 轉已記錄｜目前區段第 "+segmentIndex+" 轉。"
-
+        "目前區段第 "+
+        segmentIndex+
+        " 轉已記錄（整房第 "+
+        index+
+        " 轉）。"
     );
-
 }
 
 function undoSpin(){
@@ -1708,28 +1807,31 @@ function undoSpin(){
 
     if(!s){
 
-        setStatusMessage("請先開始房間。");
+        setStatusMessage(
+            "請先開始房間。"
+        );
 
         return;
-
     }
 
     if(db.pendingFree){
 
-        setStatusMessage("目前正在記錄免遊，不能撤銷普通轉。");
+        setStatusMessage(
+            "目前正在記錄免遊，不能撤銷普通轉。"
+        );
 
         return;
-
     }
 
     var spins=getSessionSpins();
 
     if(!spins.length){
 
-        setStatusMessage("目前沒有可撤銷的普通轉。");
+        setStatusMessage(
+            "目前沒有可撤銷的普通轉。"
+        );
 
         return;
-
     }
 
     var last=spins[spins.length-1];
@@ -1739,29 +1841,23 @@ function undoSpin(){
     for(var i=0;i<frees.length;i++){
 
         if(
-
             num(frees[i].triggerSpinNumber)===
-
             num(last.index)
-
         ){
 
             setStatusMessage(
-
-                "第 "+last.index+" 轉已是自然免遊觸發轉，不能直接撤銷。"
-
+                "第 "+
+                last.index+
+                " 轉已是自然免遊觸發轉，不能直接撤銷。"
             );
 
             return;
-
         }
 
     }
 
     db.spins=db.spins.filter(function(x){
-
         return x.id!==last.id;
-
     });
 
     saveDB();
@@ -1769,18 +1865,16 @@ function undoSpin(){
     renderAll();
 
     setStatusMessage(
-
-        "已撤銷整房第 "+last.index+" 轉。"
-
+        "已撤銷第 "+
+        last.index+
+        " 轉。"
     );
-
 }
 
-/* =========================
 
+/* =========================================================
    自然免遊
-
-========================= */
+   ========================================================= */
 
 function triggerFree(){
 
@@ -1788,38 +1882,40 @@ function triggerFree(){
 
     if(!s){
 
-        setStatusMessage("請先開始房間。");
+        setStatusMessage(
+            "請先開始房間。"
+        );
 
         return;
-
     }
 
     if(db.pendingFree){
 
-        setStatusMessage("目前已有一筆尚未完成的免遊。");
+        setStatusMessage(
+            "目前已有一筆尚未完成的免遊。"
+        );
 
         return;
-
     }
 
     var spins=getSessionSpins();
 
     if(!spins.length){
 
-        setStatusMessage("至少需要先記錄一轉，才能記錄免遊觸發。");
+        setStatusMessage(
+            "至少需要先記錄一轉，才能記錄免遊觸發。"
+        );
 
         return;
-
     }
 
     var frees=getSessionFrees();
 
     var current=spins.length;
 
-    var previous=frees.length
-
+    var previous=
+        frees.length
         ?num(frees[frees.length-1].triggerSpinNumber)
-
         :0;
 
     var gap=current-previous;
@@ -1843,19 +1939,12 @@ function triggerFree(){
     $("freeWin").focus();
 
     setStatusMessage(
-
         "已記錄免遊觸發：整房第 "+
-
         current+
-
-        " 轉｜目前區段第 "+
-
-        getCurrentSegmentSpins().length+
-
+        " 轉，間隔 "+
+        gap+
         " 轉。"
-
     );
-
 }
 
 function confirmFree(){
@@ -1864,35 +1953,38 @@ function confirmFree(){
 
     if(!s||!db.pendingFree){
 
-        setStatusMessage("目前沒有待完成的免遊。");
+        setStatusMessage(
+            "目前沒有待完成的免遊。"
+        );
 
         return;
-
     }
 
-    var win=num($("freeWin").value);
+    var win=num(
+        $("freeWin").value
+    );
 
     var raw=$("freeSpinCount").value.trim();
 
     if(win<0){
 
-        setStatusMessage("免遊派彩不能小於 0。");
+        setStatusMessage(
+            "免遊派彩不能小於 0。"
+        );
 
         return;
-
     }
 
     /*
-
-     ★ 先記錄這次免遊
-
-     ★ 觸發轉仍然留在免遊前區段
-
+        關鍵：
+        先保存目前普通轉區段
+        再寫入 free
     */
 
-    var frees=getSessionFrees();
+    var savedSegment=
+        saveCompletedSegment();
 
-    var trigger=num(db.pendingFree.triggerSpinNumber);
+    var frees=getSessionFrees();
 
     db.frees.push({
 
@@ -1902,30 +1994,28 @@ function confirmFree(){
 
         number:frees.length+1,
 
-        triggerSpinNumber:trigger,
+        triggerSpinNumber:
+            db.pendingFree.triggerSpinNumber,
 
-        gap:db.pendingFree.gap,
+        gap:
+            db.pendingFree.gap,
 
         win:win,
 
-        freeSpins:raw===""?null:num(raw),
+        freeSpins:
+            raw===""
+            ?null
+            :num(raw),
 
         time:nowISO()
 
     });
 
     /*
+        清除 pendingFree。
+        下一個普通轉會自然變成：
 
-     ★ 注意：
-
-     ★ 從這一刻開始：
-
-     ★ getCurrentSegmentSpins()
-
-     ★ 會自動從 trigger + 1 開始
-
-     ★ 所以目前區段立即歸零。
-
+        新區段第 1 轉
     */
 
     db.pendingFree=null;
@@ -1938,12 +2028,19 @@ function confirmFree(){
 
     renderAll();
 
-    setStatusMessage(
+    if(savedSegment){
 
-        "自然免遊已完成。普通轉 RTP 已重置；下一個普通轉為目前區段第 1 轉。"
+        setStatusMessage(
+            "自然免遊已完成。上一區段已保存；目前普通轉數與 RTP 已歸零，下一轉開始新的第 1 轉。"
+        );
 
-    );
+    }else{
 
+        setStatusMessage(
+            "自然免遊已完成。目前普通轉 RTP 已歸零，下一轉開始新的第 1 轉。"
+        );
+
+    }
 }
 
 function cancelFree(){
@@ -1956,505 +2053,15 @@ function cancelFree(){
 
     renderAll();
 
-    setStatusMessage("已取消這次免遊觸發記錄。");
-
+    setStatusMessage(
+        "已取消這次免遊觸發記錄。"
+    );
 }
 
-/* =========================
 
-   區段 RTP
-
-========================= */
-
-function buildSegment(
-
-    spins,
-
-    no,
-
-    start,
-
-    end,
-
-    status
-
-){
-
-    var rows=[];
-
-    var bet=0;
-
-    var win=0;
-
-    var net=0;
-
-    for(var i=0;i<spins.length;i++){
-
-        var idx=num(spins[i].index);
-
-        if(idx>=start&&idx<=end){
-
-            rows.push(spins[i]);
-
-            bet+=num(spins[i].bet);
-
-            win+=num(spins[i].win);
-
-            net+=num(spins[i].net);
-
-        }
-
-    }
-
-    return{
-
-        number:no,
-
-        startIndex:start,
-
-        endIndex:end,
-
-        count:rows.length,
-
-        bet:bet,
-
-        win:win,
-
-        net:net,
-
-        rtp:bet>0?win/bet*100:0,
-
-        status:status
-
-    };
-
-}
-
-/*
-
- ★ 歷史區段不另外存 DB
-
- ★ 直接由 spins + frees 重建
-
- ★ 所以 JSON 舊資料也不會壞
-
-*/
-
-function getSessionSegments(){
-
-    var spins=getSessionSpins();
-
-    var frees=getSessionFrees();
-
-    if(!spins.length){
-
-        return[];
-
-    }
-
-    var result=[];
-
-    var start=1;
-
-    var no=1;
-
-    for(var i=0;i<frees.length;i++){
-
-        var trigger=num(
-
-            frees[i].triggerSpinNumber
-
-        );
-
-        var end=Math.min(
-
-            trigger,
-
-            spins.length
-
-        );
-
-        /*
-
-         ★ 觸發免遊的那一轉
-
-         ★ 屬於免遊前區段
-
-        */
-
-        if(start<=end){
-
-            result.push(
-
-                buildSegment(
-
-                    spins,
-
-                    no,
-
-                    start,
-
-                    end,
-
-                    "beforeFree"
-
-                )
-
-            );
-
-            no++;
-
-        }
-
-        /*
-
-         ★ 下一段從免遊觸發轉 + 1 開始
-
-        */
-
-        start=trigger+1;
-
-        if(start>spins.length){
-
-            break;
-
-        }
-
-    }
-
-    /*
-
-     ★ 最後目前區段
-
-    */
-
-    if(start<=spins.length){
-
-        result.push(
-
-            buildSegment(
-
-                spins,
-
-                no,
-
-                start,
-
-                spins.length,
-
-                "current"
-
-            )
-
-        );
-
-    }
-
-    return result;
-
-}
-
-function getCurrentSegmentInfo(){
-
-    var spins=getSessionSpins();
-
-    var frees=getSessionFrees();
-
-    if(!spins.length){
-
-        return{
-
-            number:frees.length+1,
-
-            startIndex:frees.length
-
-                ?num(frees[frees.length-1].triggerSpinNumber)+1
-
-                :1,
-
-            endIndex:0,
-
-            count:0,
-
-            bet:0,
-
-            win:0,
-
-            net:0,
-
-            rtp:0,
-
-            status:"current"
-
-        };
-
-    }
-
-    var start=getCurrentSegmentStartIndex();
-
-    var current=getCurrentSegmentSpins();
-
-    var rtp=calculateRTP(current);
-
-    return{
-
-        number:getCurrentSegmentNumber(),
-
-        startIndex:start,
-
-        endIndex:spins.length,
-
-        count:current.length,
-
-        bet:rtp.bet,
-
-        win:rtp.win,
-
-        net:rtp.net,
-
-        rtp:rtp.rtp,
-
-        status:"current"
-
-    };
-
-}
-
-function renderSegmentRTP(){
-
-    var s=getActiveSession();
-
-    if(!s){
-
-        $("segmentCurrent").textContent="—";
-
-        $("segmentRange").textContent="—";
-
-        $("segmentRtp").textContent="—";
-
-        $("segmentCount").textContent="0";
-
-        $("segmentNotice").textContent="尚未開始房間.";
-
-        $("segmentArea").innerHTML="";
-
-        return;
-
-    }
-
-    var segments=getSessionSegments();
-
-    var current=getCurrentSegmentInfo();
-
-    var frees=getSessionFrees();
-
-    $("segmentCurrent").textContent=
-
-        "第 "+current.number+" 段";
-
-    $("segmentRange").textContent=
-
-        current.count
-
-        ?current.startIndex+"～"+current.endIndex
-
-        :current.startIndex+"～目前";
-
-    $("segmentRtp").textContent=
-
-        current.bet>0
-
-        ?percent(current.rtp)
-
-        :"—";
-
-    /*
-
-     ★ 已形成區段：
-
-     ★ 有完整普通轉資料的區段
-
-    */
-
-    $("segmentCount").textContent=
-
-        String(
-
-            segments.filter(function(x){
-
-                return x.status==="beforeFree";
-
-            }).length
-
-        );
-
-    if(current.count===0&&frees.length){
-
-        $("segmentNotice").textContent=
-
-            "上一個自然免遊已完成；目前第 "+
-
-            current.number+
-
-            " 區段為 0 轉。下一個普通轉就是第 1 轉。";
-
-    }else if(frees.length){
-
-        $("segmentNotice").textContent=
-
-            "自然免遊派彩不計入普通轉 RTP；觸發免遊的那一轉歸入免遊前區段。";
-
-    }else{
-
-        $("segmentNotice").textContent=
-
-            "目前尚未發生自然免遊，全部普通轉屬於第 1 區段。";
-
-    }
-
-    if(!segments.length){
-
-        $("segmentArea").innerHTML=
-
-            '<div class="empty">尚無普通轉區段資料。</div>';
-
-        return;
-
-    }
-
-    var html=
-
-        '<div class="table-wrap">'+
-
-        '<table>'+
-
-        '<thead>'+
-
-        '<tr>'+
-
-        '<th>區段</th>'+
-
-        '<th>普通轉範圍</th>'+
-
-        '<th>轉數</th>'+
-
-        '<th>下注</th>'+
-
-        '<th>派彩</th>'+
-
-        '<th>淨損益</th>'+
-
-        '<th>RTP</th>'+
-
-        '<th>狀態</th>'+
-
-        '</tr>'+
-
-        '</thead>'+
-
-        '<tbody>';
-
-    for(var i=segments.length-1;i>=0;i--){
-
-        var x=segments[i];
-
-        var status=
-
-            x.status==="beforeFree"
-
-            ?"免遊前"
-
-            :"目前";
-
-        html+=
-
-            "<tr>"+
-
-            "<td>第 "+x.number+" 段</td>"+
-
-            "<td>第 "+x.startIndex+"～"+x.endIndex+" 轉</td>"+
-
-            "<td>"+x.count+"</td>"+
-
-            "<td>"+money(x.bet)+"</td>"+
-
-            "<td>"+money(x.win)+"</td>"+
-
-            "<td>"+moneySigned(x.net)+"</td>"+
-
-            "<td>"+(x.bet>0?percent(x.rtp):"—")+"</td>"+
-
-            "<td>"+status+"</td>"+
-
-            "</tr>";
-
-    }
-
-    /*
-
-     ★ 如果目前區段已經有資料
-
-     ★ 但還沒有下一次免遊
-
-     ★ getSessionSegments() 本身就已包含它。
-
-    */
-
-    /*
-
-     ★ 如果剛完成免遊
-
-     ★ 下一區段沒有普通轉
-
-     ★ 額外顯示 0 轉目前區段。
-
-    */
-
-    if(
-
-        current.count===0&&
-
-        frees.length
-
-    ){
-
-        html+=
-
-            '<tr>'+
-
-            '<td>第 '+current.number+' 段</td>'+
-
-            '<td>第 '+current.startIndex+'～目前</td>'+
-
-            '<td>0</td>'+
-
-            '<td>—</td>'+
-
-            '<td>—</td>'+
-
-            '<td>—</td>'+
-
-            '<td>—</td>'+
-
-            '<td>免遊後／目前</td>'+
-
-            '</tr>';
-
-    }
-
-    html+=
-
-        "</tbody></table></div>";
-
-    $("segmentArea").innerHTML=html;
-
-}
-
-/* =========================
-
-   RTP 窗口
-
-========================= */
+/* =========================================================
+   RTP WINDOW
+   ========================================================= */
 
 function setWindow(n){
 
@@ -2463,67 +2070,84 @@ function setWindow(n){
     updateWindowButtons();
 
     renderAll();
-
 }
 
 function updateWindowButtons(){
 
     [
-
         ["win10",10],
-
         ["win50",50],
-
         ["win100",100],
-
         ["win200",200],
-
         ["winAll",0]
-
     ].forEach(function(x){
 
         var el=$(x[0]);
 
-        if(el){
+        if(!el)return;
 
-            el.className=
-
-                selectedWindow===x[1]
-
-                ?"window-btn active"
-
-                :"window-btn";
-
-        }
+        el.className=
+            selectedWindow===x[1]
+            ?"window-btn active"
+            :"window-btn";
 
     });
-
 }
 
-/* =========================
 
+/*
+    所有窗口分析都只分析：
+    「目前普通轉區段」
+
+    自然免遊完成後：
+    currentSegmentSpins = []
+
+    因此窗口自然歸零。
+*/
+
+function getWindowData(){
+
+    var spins=getCurrentSegmentSpins();
+
+    if(!spins.length){
+        return[];
+    }
+
+    if(selectedWindow===0){
+        return spins.slice();
+    }
+
+    return spins.slice(
+        Math.max(
+            0,
+            spins.length-selectedWindow
+        )
+    );
+}
+
+function getMainRTPData(){
+
+    return getWindowData();
+}
+
+
+/* =========================================================
    統計
-
-========================= */
+   ========================================================= */
 
 function median(a){
 
     if(!a.length)return 0;
 
     a=a.slice().sort(function(x,y){
-
         return x-y;
-
     });
 
     var m=Math.floor(a.length/2);
 
     return a.length%2
-
         ?a[m]
-
         :(a[m-1]+a[m])/2;
-
 }
 
 function average(a){
@@ -2531,11 +2155,8 @@ function average(a){
     if(!a.length)return 0;
 
     return a.reduce(function(t,x){
-
         return t+num(x);
-
     },0)/a.length;
-
 }
 
 function standardDeviation(a){
@@ -2555,30 +2176,11 @@ function standardDeviation(a){
     }
 
     return Math.sqrt(sum/a.length);
-
 }
-
-/*
-
- ★ 窗口最大回撤
-
- ★ 只看目前選擇的窗口
-
-*/
 
 function calculateWindowDrawdown(data){
 
-    if(!data.length){
-
-        return{
-
-            maxDrawdown:0,
-
-            currentDrawdown:0
-
-        };
-
-    }
+    if(!data.length)return 0;
 
     var balance=0;
 
@@ -2591,29 +2193,16 @@ function calculateWindowDrawdown(data){
         balance+=num(data[i].net);
 
         if(balance>peak){
-
             peak=balance;
-
         }
 
-        var dd=peak-balance;
-
-        if(dd>maxDD){
-
-            maxDD=dd;
-
-        }
-
+        maxDD=Math.max(
+            maxDD,
+            peak-balance
+        );
     }
 
-    return{
-
-        maxDrawdown:maxDD,
-
-        currentDrawdown:peak-balance
-
-    };
-
+    return maxDD;
 }
 
 function getWindowStats(){
@@ -2623,33 +2212,21 @@ function getWindowStats(){
     if(!data.length){
 
         return{
-
             bet:0,
-
             win:0,
-
             net:0,
-
             rtp:0,
-
             vol:0,
-
             lowScore:0,
-
             maxDrawdown:0,
-
             riskUsage:0
-
         };
 
     }
 
     var bet=0;
-
     var win=0;
-
     var net=0;
-
     var nets=[];
 
     for(var i=0;i<data.length;i++){
@@ -2660,99 +2237,79 @@ function getWindowStats(){
 
         net+=num(data[i].net);
 
-        nets.push(num(data[i].net));
+        nets.push(
+            num(data[i].net)
+        );
 
     }
 
     var rtp=
-
         bet>0
-
         ?win/bet*100
-
         :0;
 
     var vol=
-
         bet>0
-
         ?standardDeviation(nets)/bet*100
-
         :0;
+
+    /*
+        低回報分數
+        0～10
+    */
 
     var low=0;
 
-    if(rtp<50)
-
+    if(rtp<50){
         low+=5;
-
-    else if(rtp<70)
-
+    }else if(rtp<70){
         low+=4;
-
-    else if(rtp<85)
-
+    }else if(rtp<85){
         low+=3;
-
-    else if(rtp<95)
-
+    }else if(rtp<95){
         low++;
+    }
 
-    if(net<-bet*.25)
-
+    if(net<-bet*.25){
         low+=2;
+    }
 
-    if(vol>50)
-
+    if(vol>50){
         low+=2;
-
-    else if(vol>25)
-
+    }else if(vol>25){
         low++;
+    }
 
-    if(low>10)
-
+    if(low>10){
         low=10;
+    }
 
-    var dd=calculateWindowDrawdown(data);
+    var maxDrawdown=
+        calculateWindowDrawdown(data);
 
     var s=getActiveSession();
 
     var riskUsage=
-
         s&&num(s.risk)>0
-
-        ?dd.maxDrawdown/num(s.risk)*100
-
+        ?maxDrawdown/num(s.risk)*100
         :0;
 
     return{
-
         bet:bet,
-
         win:win,
-
         net:net,
-
         rtp:rtp,
-
         vol:vol,
-
         lowScore:low,
-
-        maxDrawdown:dd.maxDrawdown,
-
+        maxDrawdown:maxDrawdown,
         riskUsage:riskUsage
-
     };
-
 }
 
-/* =========================
 
-   財務
-
-========================= */
+/* =========================================================
+   本房資金
+   ========================================================= */
 
 function getFinancial(){
 
@@ -2761,35 +2318,22 @@ function getFinancial(){
     if(!s){
 
         return{
-
             start:0,
-
             normalNet:0,
-
             naturalWin:0,
-
             purchaseNet:0,
-
             totalNet:0,
-
             balance:0,
-
             currentDrawdown:0,
-
             maxDrawdown:0,
-
             peak:0,
-
             riskUsage:0
-
         };
 
     }
 
     var normal=0;
-
     var natural=0;
-
     var purchase=0;
 
     var events=[];
@@ -2799,11 +2343,8 @@ function getFinancial(){
         normal+=num(x.net);
 
         events.push({
-
             time:x.time,
-
             amount:num(x.net)
-
         });
 
     });
@@ -2813,11 +2354,8 @@ function getFinancial(){
         natural+=num(x.win);
 
         events.push({
-
             time:x.time,
-
             amount:num(x.win)
-
         });
 
     });
@@ -2827,22 +2365,22 @@ function getFinancial(){
         purchase+=num(x.net);
 
         events.push({
-
             time:x.time,
-
             amount:num(x.net)
-
         });
 
     });
 
     events.sort(function(a,b){
 
-        return new Date(a.time)-new Date(b.time);
+        return new Date(a.time)-
+               new Date(b.time);
 
     });
 
-    var balance=num(s.startBankroll);
+    var balance=num(
+        s.startBankroll
+    );
 
     var peak=balance;
 
@@ -2853,17 +2391,12 @@ function getFinancial(){
         balance+=num(x.amount);
 
         if(balance>peak){
-
             peak=balance;
-
         }
 
         maxDD=Math.max(
-
             maxDD,
-
             peak-balance
-
         );
 
     });
@@ -2871,11 +2404,8 @@ function getFinancial(){
     var dd=peak-balance;
 
     var total=
-
         normal+
-
         natural+
-
         purchase;
 
     return{
@@ -2890,7 +2420,8 @@ function getFinancial(){
 
         totalNet:total,
 
-        balance:num(s.startBankroll)+total,
+        balance:
+            num(s.startBankroll)+total,
 
         currentDrawdown:dd,
 
@@ -2899,408 +2430,17 @@ function getFinancial(){
         peak:peak,
 
         riskUsage:
-
             num(s.risk)>0
-
             ?dd/num(s.risk)*100
-
             :0
 
     };
-
 }
 
-/* =========================
 
-   ★ 普通轉 RTP
-
-========================= */
-
-function renderMainRTP(){
-
-    /*
-
-     ★★ 唯一來源：
-
-     ★★ 目前區段 + 目前窗口
-
-    */
-
-    var data=getMainRTPData();
-
-    if(!data.length){
-
-        $("mainRtp").textContent="—";
-
-        return;
-
-    }
-
-    var rtp=calculateRTP(data);
-
-    $("mainRtp").textContent=
-
-        rtp.bet>0
-
-        ?percent(rtp.rtp)
-
-        :"—";
-
-}
-
-/* =========================
-
-   房間畫面
-
-========================= */
-
-function renderRoom(){
-
-    var s=getActiveSession();
-
-    if(!s){
-
-        $("roomStatus").textContent="未開始";
-
-        $("roomStatus").className="status-value";
-
-        $("roomSubStatus").textContent=
-
-            "請先開始房間";
-
-        $("settingInfo").textContent=
-
-            "尚未開始房間";
-
-        $("spinCount").textContent="0";
-
-        $("windowText").textContent=
-
-            "尚無資料";
-
-        return;
-
-    }
-
-    var spins=getSessionSpins();
-
-    var current=getCurrentSegmentSpins();
-
-    $("roomStatus").textContent=s.name;
-
-    $("roomStatus").className=
-
-        "status-value good";
-
-    $("roomSubStatus").textContent=
-
-        "整房普通轉 "+
-
-        spins.length+
-
-        " 轉｜目前區段第 "+
-
-        current.length+
-
-        " 轉";
-
-    $("settingInfo").textContent=
-
-        "本金 "+
-
-        money(s.startBankroll)+
-
-        "｜風險上限 "+
-
-        money(s.risk);
-
-    /*
-
-     ★★★
-
-     ★ 畫面上的「目前轉數」
-
-     ★ 只顯示目前區段
-
-     ★ 免遊完成後立即變 0
-
-    */
-
-    $("spinCount").textContent=
-
-        String(current.length);
-
-}
-
-/* =========================
-
-   資金畫面
-
-========================= */
-
-function renderFinancial(){
-
-    var s=getActiveSession();
-
-    var f=getFinancial();
-
-    if(!s){
-
-        [
-
-            "balance",
-
-            "totalNet",
-
-            "drawdown",
-
-            "maxDrawdown",
-
-            "riskUsage",
-
-            "normalNet",
-
-            "naturalMoney",
-
-            "purchaseNet",
-
-            "moneyNet"
-
-        ].forEach(function(id){
-
-            $(id).textContent="—";
-
-        });
-
-        return;
-
-    }
-
-    $("balance").textContent=
-
-        money(f.balance);
-
-    $("totalNet").textContent=
-
-        moneySigned(f.totalNet);
-
-    $("drawdown").textContent=
-
-        money(f.currentDrawdown);
-
-    /*
-
-     ★ 這裡仍然是整房實際資金回撤
-
-     ★ 不拿窗口回撤取代。
-
-    */
-
-    $("maxDrawdown").textContent=
-
-        money(f.maxDrawdown);
-
-    $("normalNet").textContent=
-
-        moneySigned(f.normalNet);
-
-    $("naturalMoney").textContent=
-
-        moneySigned(f.naturalWin);
-
-    $("purchaseNet").textContent=
-
-        moneySigned(f.purchaseNet);
-
-    $("moneyNet").textContent=
-
-        moneySigned(f.totalNet);
-
-}
-
-/* =========================
-
-   窗口畫面
-
-========================= */
-
-function renderWindow(){
-
-    var current=getCurrentSegmentSpins();
-
-    var stats=getWindowStats();
-
-    /*
-
-     ★ 自然免遊剛完成
-
-     ★ 目前區段 0 轉
-
-    */
-
-    if(!current.length){
-
-        $("windowText").textContent=
-
-            getSessionFrees().length
-
-            ?"免遊後 0 轉"
-
-            :"尚無資料";
-
-        $("windowNotice").textContent=
-
-            getSessionFrees().length
-
-            ?"自然免遊已完成，目前 RTP 已重置；等待下一個普通轉。"
-
-            :"尚無普通轉資料。";
-
-        [
-
-            "windowBet",
-
-            "windowWin",
-
-            "windowNet",
-
-            "windowVol",
-
-            "windowRtp",
-
-            "lowScore",
-
-            "maxDrawdown",
-
-            "riskUsage"
-
-        ].forEach(function(id){
-
-            $(id).textContent="—";
-
-        });
-
-        return;
-
-    }
-
-    /*
-
-     ★★★
-
-     ★ 這裡取得的 data
-
-     ★ 已經是目前區段的最後 N 轉
-
-    */
-
-    var data=getWindowData();
-
-    /*
-
-     ★ 用區段內第幾轉顯示
-
-    */
-
-    var localStart=
-
-        current.length-data.length+1;
-
-    var localEnd=
-
-        current.length;
-
-    $("windowText").textContent=
-
-        "目前區段第 "+
-
-        localStart+
-
-        " ～ "+
-
-        localEnd+
-
-        " 轉｜"+
-
-        (
-
-            selectedWindow===0
-
-            ?"目前區段全部"
-
-            :"最近 "+selectedWindow+" 轉"
-
-        );
-
-    if(
-
-        selectedWindow>0&&
-
-        current.length<selectedWindow
-
-    ){
-
-        $("windowNotice").textContent=
-
-            "目前區段只有 "+
-
-            current.length+
-
-            " 轉，因此窗口尚未完整，現在使用目前區段全部 "+current.length+" 轉。";
-
-    }else{
-
-        $("windowNotice").textContent=
-
-            "目前窗口只計算自然免遊後的目前區段；每新增一轉，窗口會同步滾動。";
-
-    }
-
-    $("windowBet").textContent=
-
-        money(stats.bet);
-
-    $("windowWin").textContent=
-
-        money(stats.win);
-
-    $("windowNet").textContent=
-
-        moneySigned(stats.net);
-
-    $("windowVol").textContent=
-
-        stats.vol.toFixed(2)+"%";
-
-    $("windowRtp").textContent=
-
-        percent(stats.rtp);
-
-    $("lowScore").textContent=
-
-        stats.lowScore+" / 10";
-
-    $("maxDrawdown").textContent=
-
-        money(stats.maxDrawdown);
-
-    var s=getActiveSession();
-
-    $("riskUsage").textContent=
-
-        s&&num(s.risk)>0
-
-        ?stats.riskUsage.toFixed(1)+"%"
-
-        :"未設定";
-
-}
-
-/* =========================
-
+/* =========================================================
    風險
-
-========================= */
+   ========================================================= */
 
 function getRiskState(){
 
@@ -3311,103 +2451,67 @@ function getRiskState(){
     if(!s){
 
         return{
-
             text:"⚪ 等待資料",
-
             cls:"",
-
             sub:"尚未開始房間"
-
         };
 
     }
-
-    /*
-
-     ★ 自然免遊後沒有普通轉
-
-     ★ 風險狀態重置
-
-    */
 
     if(!getCurrentSegmentSpins().length){
 
         return{
-
             text:"⚪ 等待資料",
-
             cls:"",
-
-            sub:"自然免遊後尚無普通轉資料"
-
+            sub:"目前區段尚無普通轉資料"
         };
 
     }
 
-    /*
-
-     ★★★
-
-     ★ 風險判斷只看目前選擇窗口
-
-    */
-
     if(
-
-        stats.riskUsage>=100||
-
+        stats.riskUsage>=100 ||
         stats.lowScore>=9
-
     ){
 
         return{
-
             text:"🔴 高回撤／低回報",
-
             cls:"bad",
-
-            sub:"目前選擇窗口顯示回撤或低回報程度偏高"
-
+            sub:
+                "目前 "+
+                windowLabel()+
+                " 窗口顯示回撤或低回報程度偏高"
         };
 
     }
 
     if(
-
-        stats.riskUsage>=70||
-
+        stats.riskUsage>=70 ||
         stats.lowScore>=7
-
     ){
 
         return{
-
             text:"🟠 低回報／注意",
-
             cls:"orange-text",
-
-            sub:"目前選擇窗口的回報與回撤值得持續觀察"
-
+            sub:
+                "目前 "+
+                windowLabel()+
+                " 窗口的回報與回撤值得持續觀察"
         };
 
     }
 
     if(
-
-        stats.lowScore>=4||
-
+        stats.lowScore>=4 ||
         stats.riskUsage>=40
-
     ){
 
         return{
-
             text:"🟡 偏低回報",
-
             cls:"warn",
-
-            sub:"目前選擇窗口回報低於較高區間"
-
+            sub:
+                "目前 "+
+                windowLabel()+
+                " 窗口回報低於較高區間"
         };
 
     }
@@ -3415,48 +2519,37 @@ function getRiskState(){
     if(stats.rtp>=110){
 
         return{
-
             text:"🔵 回報偏高",
-
             cls:"blue",
-
-            sub:"目前選擇窗口派彩相對下注較高"
-
+            sub:
+                "目前 "+
+                windowLabel()+
+                " 窗口派彩相對下注較高"
         };
 
     }
 
     return{
-
         text:"🟢 正常觀察",
-
         cls:"good",
-
-        sub:"目前選擇窗口沒有達到上述描述條件"
-
+        sub:
+            "目前 "+
+            windowLabel()+
+            " 窗口沒有達到上述描述條件"
     };
-
 }
 
-function renderRisk(){
+function windowLabel(){
 
-    var r=getRiskState();
-
-    $("riskState").textContent=r.text;
-
-    $("riskState").className=
-
-        "status-value "+r.cls;
-
-    $("riskSub").textContent=r.sub;
-
+    return selectedWindow===0
+        ?"全部"
+        :"最近 "+selectedWindow+" 轉";
 }
 
-/* =========================
 
+/* =========================================================
    免遊統計
-
-========================= */
+   ========================================================= */
 
 function getFreeStats(){
 
@@ -3467,48 +2560,35 @@ function getFreeStats(){
     if(!frees.length){
 
         return{
-
             count:0,
-
             currentGap:spins.length,
-
             avgGap:0,
-
             medianGap:0,
-
             minGap:0,
-
             maxGap:0,
-
             avgWin:0,
-
             maxWin:0,
-
             ratio:0
-
         };
 
     }
 
     var gaps=frees.map(function(x){
-
         return num(x.gap);
-
     });
 
     var wins=frees.map(function(x){
-
         return num(x.win);
-
     });
 
     var med=median(gaps);
 
     var cur=
-
         spins.length-
-
-        num(frees[frees.length-1].triggerSpinNumber);
+        num(
+            frees[frees.length-1]
+            .triggerSpinNumber
+        );
 
     return{
 
@@ -3529,181 +2609,24 @@ function getFreeStats(){
         maxWin:Math.max.apply(null,wins),
 
         ratio:
-
             med>0
-
             ?cur/med
-
             :0
 
     };
-
 }
 
-function renderFree(){
 
-    var s=getActiveSession();
-
-    if(!s){
-
-        $("pendingFreeArea").className="hidden";
-
-        $("freeStartArea").className="";
-
-        [
-
-            "freeCount",
-
-            "currentGap",
-
-            "avgGap",
-
-            "medianGap",
-
-            "minMaxGap",
-
-            "avgFreeWin",
-
-            "maxFreeWin",
-
-            "gapRatio"
-
-        ].forEach(function(id){
-
-            $(id).textContent="—";
-
-        });
-
-        $("freeCount").textContent="0";
-
-        $("freeWarning").textContent=
-
-            "尚未開始房間。";
-
-        return;
-
-    }
-
-    if(db.pendingFree){
-
-        $("pendingFreeArea").className="";
-
-        $("freeStartArea").className="hidden";
-
-        $("pendingFreeSpin").textContent=
-
-            db.pendingFree.triggerSpinNumber;
-
-    }else{
-
-        $("pendingFreeArea").className="hidden";
-
-        $("freeStartArea").className="";
-
-    }
-
-    var f=getFreeStats();
-
-    $("freeCount").textContent=f.count;
-
-    $("currentGap").textContent=f.currentGap;
-
-    $("avgGap").textContent=
-
-        f.count
-
-        ?f.avgGap.toFixed(1)
-
-        :"—";
-
-    $("medianGap").textContent=
-
-        f.count
-
-        ?f.medianGap.toFixed(1)
-
-        :"—";
-
-    $("minMaxGap").textContent=
-
-        f.count
-
-        ?f.minGap+" / "+f.maxGap
-
-        :"—";
-
-    $("avgFreeWin").textContent=
-
-        f.count
-
-        ?money(f.avgWin)
-
-        :"—";
-
-    $("maxFreeWin").textContent=
-
-        f.count
-
-        ?money(f.maxWin)
-
-        :"—";
-
-    $("gapRatio").textContent=
-
-        f.count&&f.medianGap>0
-
-        ?f.ratio.toFixed(2)+"x"
-
-        :"—";
-
-    if(!f.count){
-
-        $("freeWarning").textContent=
-
-            "尚無免遊間隔資料。";
-
-    }else if(f.currentGap>f.maxGap){
-
-        $("freeWarning").textContent=
-
-            "目前間隔已超過歷史最大間隔。這只代表目前樣本中的相對罕見程度，不代表下一轉較容易或一定觸發。";
-
-    }else if(
-
-        f.medianGap>0&&
-
-        f.currentGap>f.medianGap*1.5
-
-    ){
-
-        $("freeWarning").textContent=
-
-            "目前間隔已超過歷史中位數的 1.5 倍。這是歷史資料的描述，不代表下一轉的預測。";
-
-    }else{
-
-        $("freeWarning").textContent=
-
-            "目前間隔仍落在已記錄歷史範圍內。統計僅描述歷史資料，不代表未來結果。";
-
-    }
-
-}
-
-/* =========================
-
-   購買免遊
-
-========================= */
+/* =========================================================
+   購買免遊統計
+   ========================================================= */
 
 function getBuyStats(){
 
     var buys=getSessionBuys();
 
     var cost=0;
-
     var win=0;
-
     var net=0;
 
     buys.forEach(function(x){
@@ -3727,15 +2650,588 @@ function getBuyStats(){
         net:net,
 
         rtp:
-
             cost>0
-
             ?win/cost*100
-
             :0
 
     };
+}
 
+
+/* =========================================================
+   房間 Render
+   ========================================================= */
+
+function renderRoom(){
+
+    var s=getActiveSession();
+
+    if(!s){
+
+        $("roomStatus").textContent="未開始";
+
+        $("roomStatus").className="status-value";
+
+        $("roomSubStatus").textContent=
+            "請先開始房間";
+
+        $("settingInfo").textContent=
+            "尚未開始房間";
+
+        $("spinCount").textContent="0";
+
+        return;
+    }
+
+    var spins=getSessionSpins();
+
+    var current=getCurrentSegmentSpins();
+
+    $("roomStatus").textContent=s.name;
+
+    $("roomStatus").className=
+        "status-value good";
+
+    $("roomSubStatus").textContent=
+        "開始："+formatTime(s.startTime)+
+        "｜整房普通轉 "+spins.length+
+        " 轉｜目前區段第 "+current.length+
+        " 轉";
+
+    $("settingInfo").textContent=
+        "本金 "+money(s.startBankroll)+
+        "｜風險上限 "+money(s.risk);
+
+    $("spinCount").textContent=
+        String(current.length);
+}
+
+
+/* =========================================================
+   資金 Render
+   ========================================================= */
+
+function renderFinancial(){
+
+    var s=getActiveSession();
+
+    var f=getFinancial();
+
+    if(!s){
+
+        [
+            "balance",
+            "totalNet",
+            "drawdown",
+            "normalNet",
+            "naturalMoney",
+            "purchaseNet",
+            "moneyNet"
+        ].forEach(function(id){
+
+            $(id).textContent="—";
+
+        });
+
+        return;
+    }
+
+    $("balance").textContent=
+        money(f.balance);
+
+    $("totalNet").textContent=
+        moneySigned(f.totalNet);
+
+    $("drawdown").textContent=
+        money(f.currentDrawdown);
+
+    $("normalNet").textContent=
+        moneySigned(f.normalNet);
+
+    $("naturalMoney").textContent=
+        moneySigned(f.naturalWin);
+
+    $("purchaseNet").textContent=
+        moneySigned(f.purchaseNet);
+
+    $("moneyNet").textContent=
+        moneySigned(f.totalNet);
+}
+
+
+/* =========================================================
+   Main RTP
+   ========================================================= */
+
+function renderMainRTP(){
+
+    var data=getMainRTPData();
+
+    if(!data.length){
+
+        $("mainRtp").textContent="—";
+
+        return;
+    }
+
+    var bet=0;
+    var win=0;
+
+    data.forEach(function(x){
+
+        bet+=num(x.bet);
+
+        win+=num(x.win);
+
+    });
+
+    $("mainRtp").textContent=
+        bet>0
+        ?percent(win/bet*100)
+        :"—";
+}
+
+
+/* =========================================================
+   WINDOW Render
+   ========================================================= */
+
+function renderWindow(){
+
+    var all=getCurrentSegmentSpins();
+
+    var stats=getWindowStats();
+
+    if(!all.length){
+
+        $("windowText").textContent=
+            getSessionFrees().length
+            ?"免遊後第 0 轉"
+            :"尚無資料";
+
+        $("windowNotice").textContent=
+            getSessionFrees().length
+            ?"上一個自然免遊已完成，目前區段為 0 轉；下一個普通轉將是新區段第 1 轉。"
+            :"尚無普通轉資料。";
+
+        [
+            "windowBet",
+            "windowWin",
+            "windowNet",
+            "windowVol",
+            "windowRtp",
+            "lowScore",
+            "maxDrawdown",
+            "riskUsage"
+        ].forEach(function(id){
+
+            $(id).textContent="—";
+
+        });
+
+        return;
+    }
+
+    var data=getWindowData();
+
+    var localStart=
+        all.length-data.length+1;
+
+    var localEnd=
+        all.length;
+
+    $("windowText").textContent=
+        "目前區段第 "+
+        localStart+
+        " ～ "+
+        localEnd+
+        " 轉｜"+
+        (
+            selectedWindow===0
+            ?"目前區段全部"
+            :"最近 "+selectedWindow+" 轉"
+        );
+
+    $("windowNotice").textContent=
+        selectedWindow>0 &&
+        all.length<selectedWindow
+        ?"目前區段只有 "+
+            all.length+
+            " 轉，因此窗口尚未完整；現在使用目前區段第 "+
+            localStart+
+            " ～ "+
+            localEnd+
+            " 轉。"
+        :"目前分析區段從第 1 轉開始；每新增一轉，選定窗口會同步滾動。";
+
+    $("windowBet").textContent=
+        money(stats.bet);
+
+    $("windowWin").textContent=
+        money(stats.win);
+
+    $("windowNet").textContent=
+        moneySigned(stats.net);
+
+    $("windowVol").textContent=
+        stats.vol.toFixed(2)+"%";
+
+    $("windowRtp").textContent=
+        percent(stats.rtp);
+
+    $("lowScore").textContent=
+        stats.lowScore+" / 10";
+
+    $("maxDrawdown").textContent=
+        money(stats.maxDrawdown);
+
+    $("riskUsage").textContent=
+        getActiveSession() &&
+        num(getActiveSession().risk)>0
+        ?stats.riskUsage.toFixed(1)+"%"
+        :"未設定";
+}
+
+
+/* =========================================================
+   Risk Render
+   ========================================================= */
+
+function renderRisk(){
+
+    var r=getRiskState();
+
+    $("riskState").textContent=
+        r.text;
+
+    $("riskState").className=
+        "status-value "+r.cls;
+
+    $("riskSub").textContent=
+        r.sub;
+}
+
+
+/* =========================================================
+   Free Render
+   ========================================================= */
+
+function renderFree(){
+
+    var s=getActiveSession();
+
+    if(!s){
+
+        $("pendingFreeArea").className="hidden";
+
+        $("freeStartArea").className="";
+
+        [
+            "freeCount",
+            "currentGap",
+            "avgGap",
+            "medianGap",
+            "minMaxGap",
+            "avgFreeWin",
+            "maxFreeWin",
+            "gapRatio"
+        ].forEach(function(id){
+
+            $(id).textContent="—";
+
+        });
+
+        $("freeCount").textContent="0";
+
+        $("freeWarning").textContent=
+            "尚未開始房間。";
+
+        return;
+    }
+
+    if(db.pendingFree){
+
+        $("pendingFreeArea").className="";
+
+        $("freeStartArea").className="hidden";
+
+        $("pendingFreeSpin").textContent=
+            db.pendingFree.triggerSpinNumber;
+
+    }else{
+
+        $("pendingFreeArea").className="hidden";
+
+        $("freeStartArea").className="";
+
+    }
+
+    var f=getFreeStats();
+
+    $("freeCount").textContent=f.count;
+
+    $("currentGap").textContent=f.currentGap;
+
+    $("avgGap").textContent=
+        f.count
+        ?f.avgGap.toFixed(1)
+        :"—";
+
+    $("medianGap").textContent=
+        f.count
+        ?f.medianGap.toFixed(1)
+        :"—";
+
+    $("minMaxGap").textContent=
+        f.count
+        ?f.minGap+" / "+f.maxGap
+        :"—";
+
+    $("avgFreeWin").textContent=
+        f.count
+        ?money(f.avgWin)
+        :"—";
+
+    $("maxFreeWin").textContent=
+        f.count
+        ?money(f.maxWin)
+        :"—";
+
+    $("gapRatio").textContent=
+        f.count &&
+        f.medianGap>0
+        ?f.ratio.toFixed(2)+"x"
+        :"—";
+
+    if(!f.count){
+
+        $("freeWarning").textContent=
+            "尚無免遊間隔資料。";
+
+    }else if(f.currentGap>f.maxGap){
+
+        $("freeWarning").textContent=
+            "目前間隔已超過歷史最大間隔。這只代表目前樣本中的相對罕見程度，不代表下一轉較容易或一定觸發。";
+
+    }else if(
+        f.medianGap>0 &&
+        f.currentGap>f.medianGap*1.5
+    ){
+
+        $("freeWarning").textContent=
+            "目前間隔已超過歷史中位數的 1.5 倍。這是歷史資料的描述，不代表下一轉的預測。";
+
+    }else{
+
+        $("freeWarning").textContent=
+            "目前間隔仍落在已記錄歷史範圍內。統計僅描述歷史資料，不代表未來結果。";
+
+    }
+}
+
+
+/* =========================================================
+   區段 RTP Render
+   ========================================================= */
+
+function renderSegmentRTP(){
+
+    var s=getActiveSession();
+
+    if(!s){
+
+        $("segmentCurrent").textContent="—";
+
+        $("segmentRange").textContent="—";
+
+        $("segmentRtp").textContent="—";
+
+        $("segmentCount").textContent="0";
+
+        $("segmentNotice").textContent=
+            "尚未開始房間";
+
+        $("segmentArea").innerHTML="";
+
+        return;
+    }
+
+    var segments=getDisplaySegments();
+
+    var completed=getCompletedSegments();
+
+    var current=getCurrentSegmentInfo();
+
+    var frees=getSessionFrees();
+
+    $("segmentCurrent").textContent=
+        "第 "+current.number+" 段";
+
+    $("segmentRange").textContent=
+        current.count
+        ?current.count+" 轉"
+        :"0 轉";
+
+    $("segmentRtp").textContent=
+        current.bet>0
+        ?percent(current.rtp)
+        :"—";
+
+    $("segmentCount").textContent=
+        String(completed.length);
+
+    if(
+        current.count===0 &&
+        frees.length
+    ){
+
+        $("segmentNotice").textContent=
+            "上一個自然免遊已完成；第 "+
+            current.number+
+            " 區段已歸零，下一個普通轉將是新區段第 1 轉。";
+
+    }else if(frees.length){
+
+        $("segmentNotice").textContent=
+            "自然免遊派彩不計入普通轉 RTP；觸發免遊的那一轉歸入免遊前區段。";
+
+    }else{
+
+        $("segmentNotice").textContent=
+            "目前尚未發生自然免遊，全部普通轉屬於第 1 區段。";
+
+    }
+
+    if(!segments.length){
+
+        $("segmentArea").innerHTML=
+            '<div class="empty">尚無普通轉區段資料。</div>';
+
+        return;
+    }
+
+    var html=
+        '<div class="table-wrap">'+
+        '<table>'+
+        '<thead>'+
+        '<tr>'+
+        '<th>區段</th>'+
+        '<th>普通轉範圍</th>'+
+        '<th>轉數</th>'+
+        '<th>下注</th>'+
+        '<th>派彩</th>'+
+        '<th>淨損益</th>'+
+        '<th>RTP</th>'+
+        '<th>狀態</th>'+
+        '</tr>'+
+        '</thead>'+
+        '<tbody>';
+
+    for(
+        var i=segments.length-1;
+        i>=0;
+        i--
+    ){
+
+        var x=segments[i];
+
+        var status="免遊前";
+
+        if(
+            num(x.number)===
+            num(current.number)
+        ){
+
+            status=
+                frees.length
+                ?"免遊後／目前"
+                :"目前";
+
+        }
+
+        html+=
+            "<tr>"+
+            "<td>第 "+x.number+" 段</td>"+
+            "<td>整房第 "+
+                x.startIndex+
+                "～"+
+                x.endIndex+
+                " 轉</td>"+
+            "<td>"+x.count+"</td>"+
+            "<td>"+money(x.bet)+"</td>"+
+            "<td>"+money(x.win)+"</td>"+
+            "<td>"+moneySigned(x.net)+"</td>"+
+            "<td>"+
+                (
+                    x.bet>0
+                    ?percent(x.rtp)
+                    :"—"
+                )+
+            "</td>"+
+            "<td>"+status+"</td>"+
+            "</tr>";
+
+    }
+
+    html+=
+        "</tbody></table></div>";
+
+    if(
+        current.count===0 &&
+        frees.length
+    ){
+
+        html+=
+            '<div class="notice">'+
+            '第 '+
+            current.number+
+            ' 段目前 0 轉；下一個普通轉將從目前區段第 1 轉開始。'+
+            '</div>';
+
+    }
+
+    $("segmentArea").innerHTML=html;
+}
+
+
+/* =========================================================
+   購買免遊
+   ========================================================= */
+
+function renderBuy(){
+
+    var b=getBuyStats();
+
+    $("buyCount").textContent=
+        b.count;
+
+    $("buyCostTotal").textContent=
+        b.count
+        ?money(b.cost)
+        :"—";
+
+    $("buyWinTotal").textContent=
+        b.count
+        ?money(b.win)
+        :"—";
+
+    $("buyRtp").textContent=
+        b.count
+        ?percent(b.rtp)
+        :"—";
+
+    var cost=num(
+        $("buyCost").value
+    );
+
+    var win=num(
+        $("buyWin").value
+    );
+
+    $("buyPreview").textContent=
+        cost>0
+        ?moneySigned(win-cost)
+        :"—";
 }
 
 function addBuy(){
@@ -3744,47 +3240,54 @@ function addBuy(){
 
     if(!s){
 
-        setStatusMessage("請先開始房間。");
+        setStatusMessage(
+            "請先開始房間。"
+        );
 
         return;
-
     }
 
     if(db.pendingFree){
 
-        setStatusMessage("目前正在記錄自然免遊，請先完成或取消。");
+        setStatusMessage(
+            "目前正在記錄自然免遊，請先完成或取消。"
+        );
 
         return;
-
     }
 
-    var cost=num($("buyCost").value);
+    var cost=num(
+        $("buyCost").value
+    );
 
-    var win=num($("buyWin").value);
+    var win=num(
+        $("buyWin").value
+    );
 
-    var raw=$("buyFreeSpinCount").value.trim();
+    var raw=
+        $("buyFreeSpinCount").value.trim();
 
     if(cost<=0){
 
-        setStatusMessage("請輸入購買成本。");
+        setStatusMessage(
+            "請輸入購買免遊成本。"
+        );
 
         return;
-
     }
 
     if(win<0){
 
-        setStatusMessage("派彩不能小於 0。");
+        setStatusMessage(
+            "派彩不能小於 0。"
+        );
 
         return;
-
     }
 
     var buys=getSessionBuys();
 
-    var triggerSpinNumber=
-
-        getSessionSpins().length;
+    var spins=getSessionSpins();
 
     db.buys.push({
 
@@ -3794,7 +3297,7 @@ function addBuy(){
 
         number:buys.length+1,
 
-        triggerSpinNumber:triggerSpinNumber,
+        triggerSpinNumber:spins.length,
 
         cost:cost,
 
@@ -3803,16 +3306,15 @@ function addBuy(){
         net:win-cost,
 
         freeSpins:
-
             raw===""
-
             ?null
-
             :num(raw),
 
         time:nowISO()
 
     });
+
+    saveDB();
 
     $("buyCost").value="";
 
@@ -3820,126 +3322,118 @@ function addBuy(){
 
     $("buyFreeSpinCount").value="";
 
-    saveDB();
-
     renderAll();
 
-    setStatusMessage("購買免遊已記錄。");
-
+    setStatusMessage(
+        "購買免遊已記錄，成本與派彩已計入本房資金。"
+    );
 }
 
-function renderBuy(){
 
-    var b=getBuyStats();
-
-    $("buyCount").textContent=b.count;
-
-    $("buyCostTotal").textContent=
-
-        b.count
-
-        ?money(b.cost)
-
-        :"—";
-
-    $("buyWinTotal").textContent=
-
-        b.count
-
-        ?money(b.win)
-
-        :"—";
-
-    $("buyRtp").textContent=
-
-        b.count
-
-        ?percent(b.rtp)
-
-        :"—";
-
-    var cost=num($("buyCost").value);
-
-    var win=num($("buyWin").value);
-
-    $("buyPreview").textContent=
-
-        cost>0
-
-        ?moneySigned(win-cost)
-
-        :"—";
-
-}
-
-/* =========================
-
+/* =========================================================
    歷史
-
-========================= */
+   ========================================================= */
 
 function setHistoryTab(tab){
 
     historyTab=tab;
 
     renderHistory();
-
 }
 
 function renderHistory(){
 
     [
-
         "tabSpins",
-
         "tabFrees",
-
         "tabBuys",
-
         "tabSessions"
-
     ].forEach(function(id,i){
 
         var tabs=[
-
             "spins",
-
             "frees",
-
             "buys",
-
             "sessions"
-
         ];
 
         $(id).className=
-
             historyTab===tabs[i]
-
             ?"tab active"
-
             :"tab";
 
     });
 
     var area=$("historyArea");
 
-    if(historyTab==="spins")
+    if(historyTab==="spins"){
 
         renderSpinHistory(area);
 
-    else if(historyTab==="frees")
+    }else if(historyTab==="frees"){
 
         renderFreeHistory(area);
 
-    else if(historyTab==="buys")
+    }else if(historyTab==="buys"){
 
         renderBuyHistory(area);
 
-    else
+    }else{
 
         renderSessionHistory(area);
 
+    }
+}
+
+
+/*
+    V8.2 舊資料相容：
+
+    舊普通轉如果沒有 segmentIndex，
+    不再直接把它錯誤歸到目前區段。
+
+    而是依照每一次自然免遊觸發轉數
+    重新計算它所在區段。
+*/
+
+function getSpinLocalIndex(x){
+
+    if(
+        x.segmentIndex!==undefined &&
+        x.segmentIndex!==null
+    ){
+
+        return num(x.segmentIndex);
+    }
+
+    var frees=getSessionFrees();
+
+    var st=1;
+
+    for(var j=0;j<frees.length;j++){
+
+        var tr=
+            num(frees[j].triggerSpinNumber);
+
+        if(
+            num(x.index)>=st &&
+            num(x.index)<=tr
+        ){
+
+            return num(x.index)-st+1;
+
+        }
+
+        st=tr+1;
+    }
+
+    if(num(x.index)>=st){
+
+        return num(x.index)-st+1;
+
+    }
+
+    return null;
 }
 
 function renderSpinHistory(area){
@@ -3949,125 +3443,63 @@ function renderSpinHistory(area){
     if(!rows.length){
 
         area.innerHTML=
-
             '<div class="empty">目前沒有普通轉紀錄。</div>';
 
         return;
-
     }
 
     var h=
-
         '<div class="table-wrap">'+
-
         '<table>'+
-
         '<thead>'+
-
         '<tr>'+
-
         '<th>整房轉數</th>'+
-
         '<th>區段轉數</th>'+
-
         '<th>下注</th>'+
-
         '<th>派彩</th>'+
-
         '<th>倍率</th>'+
-
         '<th>淨損益</th>'+
-
         '<th>時間</th>'+
-
         '</tr>'+
-
         '</thead>'+
-
         '<tbody>';
 
-    for(var i=rows.length-1;i>=0;i--){
+    for(
+        var i=rows.length-1;
+        i>=0;
+        i--
+    ){
 
         var x=rows[i];
 
-        /*
-
-         ★ 舊資料如果沒有 segmentIndex
-
-         ★ 動態補算
-
-        */
-
-        var segmentIndex=
-
-            x.segmentIndex!=null
-
-            ?x.segmentIndex
-
-            :getHistoricalSegmentLocalIndex(x.index);
+        var localIndex=
+            getSpinLocalIndex(x);
 
         h+=
-
             "<tr>"+
-
             "<td>第 "+x.index+"</td>"+
-
-            "<td>第 "+segmentIndex+"</td>"+
-
+            "<td>第 "+
+                (
+                    localIndex||"—"
+                )+
+                "</td>"+
             "<td>"+money(x.bet)+"</td>"+
-
             "<td>"+money(x.win)+"</td>"+
-
-            "<td>"+num(x.multiplier).toFixed(2)+"x</td>"+
-
+            "<td>"+
+                num(x.multiplier).toFixed(2)+
+                "x</td>"+
             "<td>"+moneySigned(x.net)+"</td>"+
-
-            "<td>"+escapeHTML(formatTime(x.time))+"</td>"+
-
+            "<td>"+
+                escapeHTML(
+                    formatTime(x.time)
+                )+
+                "</td>"+
             "</tr>";
-
     }
 
     area.innerHTML=
-
         h+
-
         "</tbody></table></div>";
-
-}
-
-/*
-
- ★ 舊資料的區段轉數
-
- ★ 不改原資料，只在顯示時計算
-
-*/
-
-function getHistoricalSegmentLocalIndex(globalIndex){
-
-    var frees=getSessionFrees();
-
-    var start=1;
-
-    for(var i=0;i<frees.length;i++){
-
-        var trigger=
-
-            num(frees[i].triggerSpinNumber);
-
-        if(globalIndex<=trigger){
-
-            return globalIndex-start+1;
-
-        }
-
-        start=trigger+1;
-
-    }
-
-    return globalIndex-start+1;
-
 }
 
 function renderFreeHistory(area){
@@ -4077,83 +3509,58 @@ function renderFreeHistory(area){
     if(!rows.length){
 
         area.innerHTML=
-
             '<div class="empty">目前沒有自然免遊紀錄。</div>';
 
         return;
-
     }
 
     var h=
-
         '<div class="table-wrap">'+
-
         '<table>'+
-
         '<thead>'+
-
         '<tr>'+
-
         '<th>編號</th>'+
-
-        '<th>觸發轉數</th>'+
-
+        '<th>觸發整房轉數</th>'+
         '<th>間隔</th>'+
-
         '<th>總派彩</th>'+
-
         '<th>免遊轉數</th>'+
-
         '<th>時間</th>'+
-
         '</tr>'+
-
         '</thead>'+
-
         '<tbody>';
 
-    for(var i=rows.length-1;i>=0;i--){
+    for(
+        var i=rows.length-1;
+        i>=0;
+        i--
+    ){
 
         var x=rows[i];
 
         h+=
-
             "<tr>"+
-
             "<td>#"+x.number+"</td>"+
-
             "<td>第 "+x.triggerSpinNumber+" 轉</td>"+
-
             "<td>"+x.gap+"</td>"+
-
             "<td>"+money(x.win)+"</td>"+
-
             "<td>"+
-
-            (
-
-                x.freeSpins==null
-
-                ?"—"
-
-                :x.freeSpins
-
-            )+
-
+                (
+                    x.freeSpins==null
+                    ?"—"
+                    :x.freeSpins
+                )+
             "</td>"+
-
-            "<td>"+escapeHTML(formatTime(x.time))+"</td>"+
-
+            "<td>"+
+                escapeHTML(
+                    formatTime(x.time)
+                )+
+            "</td>"+
             "</tr>";
-
     }
 
     area.innerHTML=
-
         h+
-
         "</tbody></table></div>";
-
 }
 
 function renderBuyHistory(area){
@@ -4163,221 +3570,159 @@ function renderBuyHistory(area){
     if(!rows.length){
 
         area.innerHTML=
-
             '<div class="empty">目前沒有購買免遊紀錄。</div>';
 
         return;
-
     }
 
     var h=
-
         '<div class="table-wrap">'+
-
         '<table>'+
-
         '<thead>'+
-
         '<tr>'+
-
         '<th>編號</th>'+
-
         '<th>觸發轉數</th>'+
-
         '<th>成本</th>'+
-
         '<th>派彩</th>'+
-
         '<th>淨損益</th>'+
-
         '<th>免遊轉數</th>'+
-
         '<th>時間</th>'+
-
         '</tr>'+
-
         '</thead>'+
-
         '<tbody>';
 
-    for(var i=rows.length-1;i>=0;i--){
+    for(
+        var i=rows.length-1;
+        i>=0;
+        i--
+    ){
 
         var x=rows[i];
 
         h+=
-
             "<tr>"+
-
             "<td>#"+x.number+"</td>"+
-
             "<td>第 "+x.triggerSpinNumber+" 轉</td>"+
-
             "<td>"+money(x.cost)+"</td>"+
-
             "<td>"+money(x.win)+"</td>"+
-
             "<td>"+moneySigned(x.net)+"</td>"+
-
             "<td>"+
-
-            (
-
-                x.freeSpins==null
-
-                ?"—"
-
-                :x.freeSpins
-
-            )+
-
+                (
+                    x.freeSpins==null
+                    ?"—"
+                    :x.freeSpins
+                )+
             "</td>"+
-
-            "<td>"+escapeHTML(formatTime(x.time))+"</td>"+
-
+            "<td>"+
+                escapeHTML(
+                    formatTime(x.time)
+                )+
+            "</td>"+
             "</tr>";
-
     }
 
     area.innerHTML=
-
         h+
-
         "</tbody></table></div>";
-
 }
 
 function renderSessionHistory(area){
 
-    var rows=db.sessions.slice().sort(function(a,b){
+    var rows=
+        db.sessions
+        .slice()
+        .sort(function(a,b){
 
-        return new Date(b.startTime)-
+            return new Date(b.startTime)-
+                   new Date(a.startTime);
 
-               new Date(a.startTime);
-
-    });
+        });
 
     if(!rows.length){
 
         area.innerHTML=
-
             '<div class="empty">目前沒有房間紀錄。</div>';
 
         return;
-
     }
 
     var h=
-
         '<div class="table-wrap">'+
-
         '<table>'+
-
         '<thead>'+
-
         '<tr>'+
-
         '<th>房間</th>'+
-
         '<th>本金</th>'+
-
         '<th>風險上限</th>'+
-
         '<th>普通轉</th>'+
-
         '<th>自然免遊</th>'+
-
         '<th>購買免遊</th>'+
-
         '<th>狀態</th>'+
-
         '</tr>'+
-
         '</thead>'+
-
         '<tbody>';
 
     rows.forEach(function(x){
 
-        var sc=db.spins.filter(function(a){
+        var sc=
+            db.spins.filter(function(a){
+                return a.sessionId===x.id;
+            }).length;
 
-            return a.sessionId===x.id;
+        var fc=
+            db.frees.filter(function(a){
+                return a.sessionId===x.id;
+            }).length;
 
-        }).length;
-
-        var fc=db.frees.filter(function(a){
-
-            return a.sessionId===x.id;
-
-        }).length;
-
-        var bc=db.buys.filter(function(a){
-
-            return a.sessionId===x.id;
-
-        }).length;
+        var bc=
+            db.buys.filter(function(a){
+                return a.sessionId===x.id;
+            }).length;
 
         h+=
-
             "<tr>"+
-
-            "<td>"+escapeHTML(x.name)+"</td>"+
-
-            "<td>"+money(x.startBankroll)+"</td>"+
-
-            "<td>"+money(x.risk)+"</td>"+
-
-            "<td>"+sc+"</td>"+
-
-            "<td>"+fc+"</td>"+
-
-            "<td>"+bc+"</td>"+
-
             "<td>"+
-
-            (
-
-                db.active===x.id
-
-                ?"進行中"
-
-                :"已結束"
-
-            )+
-
-            "</td>"+
-
+                escapeHTML(x.name)+
+                "</td>"+
+            "<td>"+money(x.startBankroll)+"</td>"+
+            "<td>"+money(x.risk)+"</td>"+
+            "<td>"+sc+"</td>"+
+            "<td>"+fc+"</td>"+
+            "<td>"+bc+"</td>"+
+            "<td>"+
+                (
+                    db.active===x.id
+                    ?"進行中"
+                    :"已結束"
+                )+
+                "</td>"+
             "</tr>";
 
     });
 
     area.innerHTML=
-
         h+
-
         "</tbody></table></div>";
-
 }
 
-/* =========================
 
+/* =========================================================
    JSON / CSV
-
-========================= */
+   ========================================================= */
 
 function exportJSON(){
 
     downloadFile(
-
         JSON.stringify(db,null,2),
-
-        "rtp-analyzer-backup-"+dateFileName()+".json",
-
+        "rtp-analyzer-backup-"+
+            dateFileName()+
+            ".json",
         "application/json"
-
     );
 
-    setStatusMessage("JSON 備份已產生。");
-
+    setStatusMessage(
+        "JSON 備份已產生。"
+    );
 }
 
 function importJSON(e){
@@ -4393,9 +3738,7 @@ function importJSON(e){
         try{
 
             db=normalizeDB(
-
                 JSON.parse(x.target.result)
-
             );
 
             saveDB();
@@ -4403,17 +3746,13 @@ function importJSON(e){
             renderAll();
 
             setStatusMessage(
-
                 "JSON 還原完成。"
-
             );
 
         }catch(err){
 
             setStatusMessage(
-
                 "JSON 還原失敗：檔案格式不正確。"
-
             );
 
         }
@@ -4423,7 +3762,6 @@ function importJSON(e){
     };
 
     r.readAsText(file);
-
 }
 
 function exportCSV(){
@@ -4431,33 +3769,19 @@ function exportCSV(){
     var rows=[
 
         [
-
             "類型",
-
             "房間",
-
             "編號",
-
+            "整房轉數",
             "區段轉數",
-
-            "轉數",
-
             "下注",
-
             "成本",
-
             "派彩",
-
             "淨損益",
-
             "倍率",
-
             "間隔",
-
             "免遊轉數",
-
             "時間"
-
         ]
 
     ];
@@ -4465,37 +3789,21 @@ function exportCSV(){
     db.spins.forEach(function(x){
 
         rows.push([
-
             "普通轉",
-
             x.sessionId,
-
             x.index,
-
+            x.index,
             x.segmentIndex==null
-
-                ?getHistoricalSegmentLocalIndex(x.index)
-
+                ?""
                 :x.segmentIndex,
-
-            x.index,
-
             x.bet,
-
             "",
-
             x.win,
-
             x.net,
-
             x.multiplier,
-
             "",
-
             "",
-
             x.time
-
         ]);
 
     });
@@ -4503,33 +3811,21 @@ function exportCSV(){
     db.frees.forEach(function(x){
 
         rows.push([
-
             "自然免遊",
-
             x.sessionId,
-
             x.number,
-
-            "",
-
             x.triggerSpinNumber,
-
             "",
-
             "",
-
+            "",
             x.win,
-
             x.win,
-
             "",
-
             x.gap,
-
-            x.freeSpins==null?"":x.freeSpins,
-
+            x.freeSpins==null
+                ?""
+                :x.freeSpins,
             x.time
-
         ]);
 
     });
@@ -4537,71 +3833,58 @@ function exportCSV(){
     db.buys.forEach(function(x){
 
         rows.push([
-
             "購買免遊",
-
             x.sessionId,
-
             x.number,
-
-            "",
-
             x.triggerSpinNumber,
-
             "",
-
+            "",
             x.cost,
-
             x.win,
-
             x.net,
-
             "",
-
             "",
-
-            x.freeSpins==null?"":x.freeSpins,
-
+            x.freeSpins==null
+                ?""
+                :x.freeSpins,
             x.time
-
         ]);
 
     });
 
     var csv=
-
         "\uFEFF"+
-
         rows.map(function(row){
 
             return row.map(function(c){
 
                 return '"'+
-
-                    String(c==null?"":c)
-
-                    .replace(/"/g,'""')+
-
+                    String(
+                        c==null
+                        ?""
+                        :c
+                    ).replace(
+                        /"/g,
+                        '""'
+                    )+
                     '"';
 
             }).join(",");
 
         }).join("\r\n")+
-
         "\r\n";
 
     downloadFile(
-
         csv,
-
-        "rtp-analyzer-"+dateFileName()+".csv",
-
+        "rtp-analyzer-"+
+            dateFileName()+
+            ".csv",
         "text/csv;charset=utf-8"
-
     );
 
-    setStatusMessage("CSV 已匯出。");
-
+    setStatusMessage(
+        "CSV 已匯出。"
+    );
 }
 
 function dateFileName(){
@@ -4609,48 +3892,36 @@ function dateFileName(){
     var d=new Date();
 
     var p=function(n){
-
-        return n<10?"0"+n:n;
-
+        return n<10
+            ?"0"+n
+            :n;
     };
 
     return d.getFullYear()+
-
         p(d.getMonth()+1)+
-
         p(d.getDate())+
-
         "-"+
-
         p(d.getHours())+
-
         p(d.getMinutes())+
-
         p(d.getSeconds());
-
 }
 
 function downloadFile(
-
     content,
-
     filename,
-
     type
-
 ){
 
     var blob=new Blob(
-
         [content],
-
         {type:type}
-
     );
 
-    var url=URL.createObjectURL(blob);
+    var url=
+        URL.createObjectURL(blob);
 
-    var a=document.createElement("a");
+    var a=
+        document.createElement("a");
 
     a.href=url;
 
@@ -4667,23 +3938,22 @@ function downloadFile(
         URL.revokeObjectURL(url);
 
     },1000);
-
 }
+
+
+/* =========================================================
+   清除資料
+   ========================================================= */
 
 function clearAllData(){
 
     if(!confirm(
-
         "確定要清除全部 RTP Analyzer 資料嗎？\n\n"+
-
-        "房間、普通轉、免遊、購買免遊紀錄都會刪除。\n"+
-
+        "房間、普通轉、免遊、購買免遊、已保存區段紀錄都會刪除。\n"+
         "建議先做 JSON 備份。"
-
     )){
 
         return;
-
     }
 
     db=defaultDB();
@@ -4693,18 +3963,14 @@ function clearAllData(){
     renderAll();
 
     setStatusMessage(
-
         "全部資料已清除。"
-
     );
-
 }
 
-/* =========================
 
-   Render
-
-========================= */
+/* =========================================================
+   Render ALL
+   ========================================================= */
 
 function renderAll(){
 
@@ -4714,23 +3980,15 @@ function renderAll(){
 
         renderFinancial();
 
-        /*
-
-         ★ 普通轉 RTP
-
-         ★ 跟窗口完全同步
-
-        */
-
         renderMainRTP();
+
+        renderSegmentRTP();
 
         renderWindow();
 
         renderRisk();
 
         renderFree();
-
-        renderSegmentRTP();
 
         renderBuy();
 
@@ -4739,53 +3997,44 @@ function renderAll(){
         renderHistory();
 
         $("systemStatus").textContent=
-
             "● 系統正常｜資料已保存｜V8.2";
 
     }catch(e){
 
         showSystemError(
-
             "Render 錯誤："+e.message
-
         );
 
     }
-
 }
 
-/* =========================
 
-   Input
-
-========================= */
+/* =========================================================
+   事件
+   ========================================================= */
 
 function bindInputEvents(){
 
     $("buyCost").addEventListener(
-
         "input",
-
         renderBuy
-
     );
 
     $("buyWin").addEventListener(
-
         "input",
-
         renderBuy
-
     );
-
 }
+
+
+/* =========================================================
+   系統訊息
+   ========================================================= */
 
 function setStatusMessage(msg){
 
     $("systemStatus").textContent=
-
         "● "+msg;
-
 }
 
 function showSystemError(msg){
@@ -4795,44 +4044,32 @@ function showSystemError(msg){
     if(!box)return;
 
     box.className=
-
         "notice danger-box";
 
     box.textContent=msg;
 
     $("systemStatus").textContent=
-
         "⚠ 系統發生錯誤";
-
 }
 
 window.onerror=function(
-
     message,
-
     source,
-
     lineno
-
 ){
 
     showSystemError(
-
         "程式錯誤："+message+
-
         "｜第 "+lineno+" 行"
-
     );
 
     return false;
-
 };
 
-/* =========================
 
-   初始化
-
-========================= */
+/* =========================================================
+   INIT
+   ========================================================= */
 
 function initApp(){
 
@@ -4847,15 +4084,12 @@ function initApp(){
         if(s){
 
             $("roomName").value=
-
                 s.name||"";
 
             $("startBankroll").value=
-
                 s.startBankroll;
 
             $("riskLimit").value=
-
                 s.risk;
 
         }
@@ -4863,39 +4097,28 @@ function initApp(){
         renderAll();
 
         setStatusMessage(
-
             s
-
             ?"已恢復進行中的房間。"
-
             :"系統正常，請開始新房。"
-
         );
 
     }catch(e){
 
         showSystemError(
-
             "啟動失敗："+e.message
-
         );
 
     }
-
 }
 
+
 if(
-
     document.readyState==="loading"
-
 ){
 
     document.addEventListener(
-
         "DOMContentLoaded",
-
         initApp
-
     );
 
 }else{
@@ -4907,5 +4130,4 @@ if(
 </script>
 
 </body>
-
 </html>
